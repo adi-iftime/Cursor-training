@@ -101,6 +101,59 @@ class GitHubClient:
             raise GitHubAPIError(f"Unexpected status {status}", status=status)
         return json.loads(data.decode("utf-8"))
 
+    def update_pull(
+        self,
+        owner: str,
+        repo: str,
+        pull_number: int,
+        *,
+        body: str | None = None,
+        title: str | None = None,
+    ) -> dict[str, Any]:
+        """PATCH pull request (issue/PR body and title)."""
+        payload_obj: dict[str, Any] = {}
+        if body is not None:
+            payload_obj["body"] = body
+        if title is not None:
+            payload_obj["title"] = title
+        if not payload_obj:
+            raise ValueError("update_pull requires at least one of body, title")
+        payload = json.dumps(payload_obj).encode("utf-8")
+        status, data = self._request(
+            "PATCH",
+            f"/repos/{owner}/{repo}/pulls/{pull_number}",
+            body=payload,
+        )
+        if status != 200:
+            raise GitHubAPIError(f"Unexpected status {status}", status=status)
+        return json.loads(data.decode("utf-8"))
+
+    def list_pull_commits(self, owner: str, repo: str, pull_number: int) -> list[dict[str, Any]]:
+        status, data = self._request(
+            "GET",
+            f"/repos/{owner}/{repo}/pulls/{pull_number}/commits?per_page=100",
+        )
+        if status != 200:
+            raise GitHubAPIError(f"Unexpected status {status}", status=status)
+        return json.loads(data.decode("utf-8"))
+
+    def list_pull_files(self, owner: str, repo: str, pull_number: int) -> list[dict[str, Any]]:
+        status, data = self._request(
+            "GET",
+            f"/repos/{owner}/{repo}/pulls/{pull_number}/files?per_page=100",
+        )
+        if status != 200:
+            raise GitHubAPIError(f"Unexpected status {status}", status=status)
+        return json.loads(data.decode("utf-8"))
+
+    def get_git_ref(self, owner: str, repo: str, ref: str) -> dict[str, Any]:
+        """Resolve a git ref (e.g. heads/main). Ref must be URL-safe encoded."""
+        enc = quote(ref, safe="")
+        status, data = self._request("GET", f"/repos/{owner}/{repo}/git/ref/{enc}")
+        if status != 200:
+            raise GitHubAPIError(f"Unexpected status {status}", status=status)
+        return json.loads(data.decode("utf-8"))
+
     def get_pull_diff(self, owner: str, repo: str, pull_number: int) -> str:
         status, data = self._request(
             "GET",

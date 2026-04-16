@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "version": "1.0.0",
-  "description": "DAG execution schedule for Cursor Orchestrator. Agent ids MUST match config/agents.json exactly. No new agents; do not rename. Parallel waves list agents that may run concurrently when all their dependsOn (from agents.json) are satisfied.",
+  "description": "DAG execution schedule for Cursor Orchestrator. Agent ids MUST match config/agents.json exactly. Parallel waves list agents that may run concurrently when all their dependsOn (from agents.json) are satisfied.",
   "agents_registry": "config/agents.json",
   "rules": {
     "parallelism": "Within a wave marked parallel=true, run only agents whose dependencies are all complete; agents in the same wave must not depend on each other.",
@@ -16,10 +16,16 @@
       "notes": "STEP 1 — receive user request, emit work order with correlation_id"
     },
     {
+      "id": "wave_jira_story",
+      "parallel": false,
+      "agents": ["jira_story_generator"],
+      "notes": "STEP 2 — structured Jira Story from orchestrator task via Atlassian MCP; unlocks planner"
+    },
+    {
       "id": "wave_planner",
       "parallel": false,
       "agents": ["planner"],
-      "notes": "STEP 2 — architecture, module breakdown, Jira story structure (MCP); depends on orchestrator"
+      "notes": "STEP 3 — architecture, module breakdown, Jira alignment (MCP); depends on orchestrator + jira_story_generator"
     },
     {
       "id": "wave_governance",
@@ -46,6 +52,12 @@
       "notes": "Requires tester + security + data_engineer per agents.json"
     },
     {
+      "id": "wave_pr_description",
+      "parallel": false,
+      "agents": ["github_pr_description_writer"],
+      "notes": "Structured PR body on GitHub via existing GitHubClient; requires devops + jira_story_generator per agents.json"
+    },
+    {
       "id": "wave_parallel_optimize_insight",
       "parallel": true,
       "agents": ["cost_optimizer", "data_analyst"],
@@ -59,12 +71,14 @@
     }
   ],
   "edges_summary": {
+    "jira_story_generator": ["planner", "github_pr_description_writer"],
+    "github_pr_description_writer": ["documentation"],
     "data_governance": ["data_engineer", "data_quality", "security"],
     "data_engineer": ["data_quality", "tester", "security", "cost_optimizer", "devops"],
     "data_quality": ["tester", "data_analyst", "documentation"],
     "tester": ["devops", "documentation"],
     "security": ["devops", "documentation", "cost_optimizer"],
-    "devops": ["cost_optimizer", "documentation"],
+    "devops": ["cost_optimizer", "documentation", "github_pr_description_writer"],
     "cost_optimizer": ["documentation", "data_engineer"],
     "data_analyst": ["documentation"],
     "documentation": []

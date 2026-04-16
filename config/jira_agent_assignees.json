@@ -11,6 +11,14 @@
       "assignee_account_id": "712020:e0351bc9-9c1b-444a-af1f-0d6323204e6d",
       "extra_labels": ["routing-orchestrator"]
     },
+    "jira_story_generator": {
+      "assignee_account_id": "712020:e0351bc9-9c1b-444a-af1f-0d6323204e6d",
+      "extra_labels": ["routing-jira_story_generator"]
+    },
+    "github_pr_description_writer": {
+      "assignee_account_id": "712020:e0351bc9-9c1b-444a-af1f-0d6323204e6d",
+      "extra_labels": ["routing-github_pr_description_writer"]
+    },
     "planner": {
       "assignee_account_id": "712020:e0351bc9-9c1b-444a-af1f-0d6323204e6d",
       "extra_labels": ["routing-planner"]

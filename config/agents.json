@@ -8,13 +8,20 @@
       "name": "Orchestrator Agent",
       "entryPoint": true,
       "dependsOn": [],
-      "outputsTo": ["planner", "documentation"]
+      "outputsTo": ["planner", "documentation", "jira_story_generator"]
+    },
+    {
+      "id": "jira_story_generator",
+      "name": "Jira Story Generator Agent",
+      "entryPoint": false,
+      "dependsOn": ["orchestrator"],
+      "outputsTo": ["planner", "github_pr_description_writer"]
     },
     {
       "id": "planner",
       "name": "Planner Agent",
       "entryPoint": false,
-      "dependsOn": ["orchestrator"],
+      "dependsOn": ["orchestrator", "jira_story_generator"],
       "outputsTo": ["data_governance", "data_engineer", "tester", "devops"]
     },
     {
@@ -57,7 +64,14 @@
       "name": "DevOps Agent",
       "entryPoint": false,
       "dependsOn": ["tester", "data_engineer", "security"],
-      "outputsTo": ["cost_optimizer", "documentation"]
+      "outputsTo": ["cost_optimizer", "documentation", "github_pr_description_writer"]
+    },
+    {
+      "id": "github_pr_description_writer",
+      "name": "GitHub PR Description Writer Agent",
+      "entryPoint": false,
+      "dependsOn": ["devops", "jira_story_generator"],
+      "outputsTo": ["documentation"]
     },
     {
       "id": "cost_optimizer",
@@ -70,7 +84,7 @@
       "id": "documentation",
       "name": "Documentation Agent",
       "entryPoint": false,
-      "dependsOn": ["orchestrator", "devops", "data_governance"],
+      "dependsOn": ["orchestrator", "devops", "data_governance", "github_pr_description_writer"],
       "outputsTo": []
     },
     {
