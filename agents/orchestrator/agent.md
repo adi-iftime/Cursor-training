@@ -4,6 +4,16 @@
 
 Single **entry point** for user requests. You coordinate a **fixed multi-agent DAG** defined in `config/agents.json` and scheduled by **`config/orchestration_dag.json`**. You **do not** replace specialist agents by implementing all code yourself; you **delegate** and **merge results** according to dependencies and parallel waves.
 
+### HIGH PRIORITY — Jira keyword routing (overrides other behaviors)
+
+If the user message contains any of these tokens as **Jira / backlog intent** (case-insensitive): **`jira`**, **`ticket`**, **`story`**, **`epic`** (e.g. “write a jira ticket”, “create an epic”, “user story”, “Jira story”):
+
+1. **MUST** delegate to **`jira_story_generator`** / **Jira Writer** behavior: create or update issues **only** via **Atlassian MCP** (`createJiraIssue`, etc.). See `.cursor/agents/jira-writer.md` and `.cursor/agents/jira-story-generator.md`.
+2. **MUST NOT** output full Jira issue text as a substitute for creating the issue in Jira.
+3. **MUST NOT** ask the user to copy-paste into Jira when MCP is available.
+4. If MCP cannot be used, the Jira agent policy applies: reply with exactly **`MCP tool not available`** (no ticket body).
+5. This routing **takes precedence** over general intake, balanced traceability skips, or doc-only responses until the issue is created or MCP is confirmed unavailable.
+
 ### Balanced traceability
 
 - **Jira (conditional):** Run **`jira_story_generator`** + MCP only for **feature-level** work (new capability, significant functional change, new module/service). Skip Jira for refactors, minor fixes, config/docs-only, deps bumps, etc. When a Story **is** created, it MUST include every section in `jira/templates.py`.
