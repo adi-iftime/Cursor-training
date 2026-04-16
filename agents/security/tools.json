@@ -1,0 +1,10 @@
+{
+  "allowedSkills": ["infra_as_code", "github", "monitoring"],
+  "allowedTools": [
+    "iam_diff_review",
+    "secret_scan",
+    "pii_pattern_scan",
+    "structured_log"
+  ],
+  "notes": "Blocks or conditions DevOps deploy when risk exceeds policy."
+}

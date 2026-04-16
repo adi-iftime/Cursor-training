@@ -1,0 +1,25 @@
+{
+  "skillId": "jira",
+  "version": "1.0.0",
+  "inputs": {
+    "type": "object",
+    "required": ["correlation_id", "title", "body_markdown"],
+    "properties": {
+      "correlation_id": { "type": "string" },
+      "title": { "type": "string" },
+      "body_markdown": { "type": "string" },
+      "issue_type": { "type": "string", "enum": ["Epic", "Story", "Task", "Bug"] },
+      "labels": { "type": "array", "items": { "type": "string" } },
+      "parent_key": { "type": "string" }
+    }
+  },
+  "outputs": {
+    "type": "object",
+    "required": ["issue_key", "issue_url"],
+    "properties": {
+      "issue_key": { "type": "string" },
+      "issue_url": { "type": "string" },
+      "status": { "type": "string" }
+    }
+  }
+}

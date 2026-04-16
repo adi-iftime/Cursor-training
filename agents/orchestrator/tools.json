@@ -1,0 +1,10 @@
+{
+  "allowedSkills": [],
+  "allowedTools": [
+    "read_config",
+    "emit_handoff",
+    "update_execution_state",
+    "structured_log"
+  ],
+  "notes": "Orchestrator does not directly invoke data platform skills; it delegates."
+}

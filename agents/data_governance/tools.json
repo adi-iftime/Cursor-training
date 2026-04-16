@@ -1,0 +1,9 @@
+{
+  "allowedSkills": ["data_validation", "sql", "github"],
+  "allowedTools": [
+    "catalog_register_contract",
+    "lineage_graph_export",
+    "structured_log"
+  ],
+  "notes": "Feeds Data Engineer and Data Quality with authoritative contract IDs."
+}

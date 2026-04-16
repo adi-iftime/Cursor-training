@@ -1,0 +1,21 @@
+{
+  "skillId": "testing",
+  "version": "1.0.0",
+  "inputs": {
+    "type": "object",
+    "required": ["runner", "target"],
+    "properties": {
+      "runner": { "type": "string", "enum": ["pytest", "dbt_test", "native"] },
+      "target": { "type": "string" },
+      "markers": { "type": "array", "items": { "type": "string" } }
+    }
+  },
+  "outputs": {
+    "type": "object",
+    "properties": {
+      "passed": { "type": "boolean" },
+      "failed_tests": { "type": "array", "items": { "type": "string" } },
+      "report_uri": { "type": "string" }
+    }
+  }
+}

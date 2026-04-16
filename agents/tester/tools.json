@@ -1,0 +1,9 @@
+{
+  "allowedSkills": ["testing", "data_validation", "python", "github"],
+  "allowedTools": [
+    "pytest_run",
+    "ci_test_report",
+    "structured_log"
+  ],
+  "notes": "Coordinates with Data Quality for rule coverage."
+}

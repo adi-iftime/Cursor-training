@@ -1,0 +1,9 @@
+{
+  "allowedSkills": ["sql", "reporting", "python"],
+  "allowedTools": [
+    "bi_query",
+    "notebook_execute",
+    "structured_log"
+  ],
+  "notes": "Read paths restricted to Gold per guardrails/data_analyst."
+}

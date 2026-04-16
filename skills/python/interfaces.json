@@ -1,0 +1,20 @@
+{
+  "skillId": "python",
+  "version": "1.0.0",
+  "inputs": {
+    "type": "object",
+    "required": ["entrypoint", "args"],
+    "properties": {
+      "entrypoint": { "type": "string", "description": "module:function or script path" },
+      "args": { "type": "array", "items": { "type": "string" } },
+      "env": { "type": "object", "additionalProperties": { "type": "string" } }
+    }
+  },
+  "outputs": {
+    "type": "object",
+    "properties": {
+      "exit_code": { "type": "integer" },
+      "stdout_digest": { "type": "string" }
+    }
+  }
+}

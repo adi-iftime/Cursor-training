@@ -1,0 +1,24 @@
+{
+  "skillId": "snowflake",
+  "version": "1.0.0",
+  "inputs": {
+    "type": "object",
+    "required": ["action"],
+    "properties": {
+      "action": { "type": "string", "enum": ["execute_sql", "create_task", "alter_table_clustering"] },
+      "database": { "type": "string" },
+      "schema": { "type": "string" },
+      "sql": { "type": "string" },
+      "warehouse": { "type": "string" },
+      "role": { "type": "string" }
+    }
+  },
+  "outputs": {
+    "type": "object",
+    "properties": {
+      "rows_affected": { "type": "integer" },
+      "bytes_scanned": { "type": "integer" },
+      "query_id": { "type": "string" }
+    }
+  }
+}

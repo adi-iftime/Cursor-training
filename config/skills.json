@@ -1,0 +1,79 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "version": "1.0.0",
+  "description": "Reusable skills registry and primary agent ownership",
+  "skills": [
+    {
+      "id": "jira",
+      "path": "skills/jira",
+      "primaryAgents": ["planner"],
+      "secondaryAgents": ["orchestrator", "documentation"]
+    },
+    {
+      "id": "github",
+      "path": "skills/github",
+      "primaryAgents": ["documentation", "devops"],
+      "secondaryAgents": ["tester", "data_engineer"]
+    },
+    {
+      "id": "databricks",
+      "path": "skills/databricks",
+      "primaryAgents": ["data_engineer"],
+      "secondaryAgents": ["devops", "cost_optimizer"]
+    },
+    {
+      "id": "snowflake",
+      "path": "skills/snowflake",
+      "primaryAgents": ["data_engineer"],
+      "secondaryAgents": ["cost_optimizer", "data_quality"]
+    },
+    {
+      "id": "sql",
+      "path": "skills/sql",
+      "primaryAgents": ["data_engineer"],
+      "secondaryAgents": ["data_analyst", "data_quality"]
+    },
+    {
+      "id": "python",
+      "path": "skills/python",
+      "primaryAgents": ["data_engineer"],
+      "secondaryAgents": ["tester", "devops"]
+    },
+    {
+      "id": "testing",
+      "path": "skills/testing",
+      "primaryAgents": ["tester"],
+      "secondaryAgents": ["data_engineer", "data_quality"]
+    },
+    {
+      "id": "reporting",
+      "path": "skills/reporting",
+      "primaryAgents": ["data_analyst"],
+      "secondaryAgents": ["documentation"]
+    },
+    {
+      "id": "monitoring",
+      "path": "skills/monitoring",
+      "primaryAgents": ["devops"],
+      "secondaryAgents": ["cost_optimizer", "data_quality"]
+    },
+    {
+      "id": "data_validation",
+      "path": "skills/data_validation",
+      "primaryAgents": ["data_quality"],
+      "secondaryAgents": ["tester", "data_engineer"]
+    },
+    {
+      "id": "ci_cd",
+      "path": "skills/ci_cd",
+      "primaryAgents": ["devops"],
+      "secondaryAgents": ["tester", "documentation"]
+    },
+    {
+      "id": "infra_as_code",
+      "path": "skills/infra_as_code",
+      "primaryAgents": ["devops"],
+      "secondaryAgents": ["cost_optimizer", "security"]
+    }
+  ]
+}

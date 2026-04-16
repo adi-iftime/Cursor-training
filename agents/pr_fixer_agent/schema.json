@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "PRFixerAgentIO",
+  "type": "object",
+  "required": ["status", "summary", "issues", "actions_taken", "recommendation"],
+  "properties": {
+    "status": { "type": "string", "enum": ["ok", "error"] },
+    "summary": { "type": "string" },
+    "issues": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "severity", "type", "title", "detail"],
+        "properties": {
+          "id": { "type": "string" },
+          "severity": { "type": "string" },
+          "type": { "type": "string" },
+          "title": { "type": "string" },
+          "detail": { "type": "string" },
+          "file": { "type": ["string", "null"] },
+          "line": { "type": ["integer", "null"] },
+          "autofix": { "type": "boolean" }
+        }
+      }
+    },
+    "actions_taken": { "type": "array", "items": { "type": "string" } },
+    "recommendation": {
+      "type": "string",
+      "enum": ["FIXED", "PARTIAL", "MANUAL_REQUIRED"]
+    }
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "allowedSkills": [
+    "databricks",
+    "snowflake",
+    "sql",
+    "python",
+    "monitoring",
+    "data_validation"
+  ],
+  "allowedTools": [
+    "catalog_read",
+    "job_submit",
+    "warehouse_query_plan",
+    "structured_log"
+  ],
+  "notes": "Primary implementer for warehouse and Spark/SQL/Python artifacts."
+}

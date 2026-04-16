@@ -1,0 +1,84 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "version": "1.0.0",
+  "description": "End-to-end orchestration flow for governed data engineering workflows",
+  "flow": [
+    {
+      "step": 1,
+      "agent": "orchestrator",
+      "action": "receive_request",
+      "description": "Parse user intent, classify risk tier, emit structured work order"
+    },
+    {
+      "step": 2,
+      "agent": "planner",
+      "action": "plan_and_track",
+      "description": "Decompose work, create Jira epics/tasks, define dependencies and priorities"
+    },
+    {
+      "step": 3,
+      "agent": "data_governance",
+      "action": "define_contracts",
+      "description": "Data contracts, schema evolution policy, lineage requirements"
+    },
+    {
+      "step": 4,
+      "agent": "data_engineer",
+      "action": "implement_pipelines",
+      "description": "Bronze/Silver/Gold pipelines, batch and streaming as specified"
+    },
+    {
+      "step": 5,
+      "agent": "data_quality",
+      "action": "validate_data",
+      "description": "Rules, anomalies, completeness vs contracts"
+    },
+    {
+      "step": 6,
+      "agent": "tester",
+      "action": "validate_code",
+      "description": "Unit, integration, and data validation tests"
+    },
+    {
+      "step": 7,
+      "agent": "security",
+      "action": "review_sensitive_ops",
+      "description": "PII, RBAC, leak prevention, audit trail for sensitive paths"
+    },
+    {
+      "step": 8,
+      "agent": "devops",
+      "action": "deploy",
+      "description": "CI/CD, IaC, environments, monitoring hooks"
+    },
+    {
+      "step": 9,
+      "agent": "cost_optimizer",
+      "action": "efficiency_review",
+      "description": "Scan patterns, clustering, right-sizing suggestions"
+    },
+    {
+      "step": 10,
+      "agent": "documentation",
+      "action": "update_artifacts",
+      "description": "Architecture docs, runbooks, diagram updates"
+    },
+    {
+      "step": 11,
+      "agent": "data_analyst",
+      "action": "insights_optional",
+      "description": "Reports and dashboards from Gold only when scope requires",
+      "conditional": true
+    }
+  ],
+  "observability": {
+    "requiredHooks": ["structured_logging", "metrics_emission", "trace_correlation_id"],
+    "pipelineMonitoring": "Each deployable unit registers health checks and SLI/SLO hooks per environment"
+  },
+  "haltConditions": [
+    "guardrail_violation",
+    "security_block",
+    "data_contract_failure",
+    "explicit_user_abort"
+  ]
+}

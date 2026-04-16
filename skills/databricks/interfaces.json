@@ -1,0 +1,25 @@
+{
+  "skillId": "databricks",
+  "version": "1.0.0",
+  "inputs": {
+    "type": "object",
+    "required": ["action"],
+    "properties": {
+      "action": { "type": "string", "enum": ["run_job", "deploy_notebook", "register_table"] },
+      "job_id": { "type": "string" },
+      "workspace_path": { "type": "string" },
+      "catalog": { "type": "string" },
+      "schema": { "type": "string" },
+      "table": { "type": "string" },
+      "parameters": { "type": "object", "additionalProperties": true }
+    }
+  },
+  "outputs": {
+    "type": "object",
+    "properties": {
+      "run_id": { "type": "string" },
+      "state": { "type": "string" },
+      "output_uri": { "type": "string" }
+    }
+  }
+}

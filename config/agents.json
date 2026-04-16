@@ -1,0 +1,88 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "version": "1.0.0",
+  "description": "Registry of agents in the multi-agent data platform",
+  "agents": [
+    {
+      "id": "orchestrator",
+      "name": "Orchestrator Agent",
+      "entryPoint": true,
+      "dependsOn": [],
+      "outputsTo": ["planner", "documentation"]
+    },
+    {
+      "id": "planner",
+      "name": "Planner Agent",
+      "entryPoint": false,
+      "dependsOn": ["orchestrator"],
+      "outputsTo": ["data_governance", "data_engineer", "tester", "devops"]
+    },
+    {
+      "id": "data_governance",
+      "name": "Data Governance Agent",
+      "entryPoint": false,
+      "dependsOn": ["planner"],
+      "outputsTo": ["data_engineer", "data_quality", "security"]
+    },
+    {
+      "id": "data_engineer",
+      "name": "Data Engineer Agent",
+      "entryPoint": false,
+      "dependsOn": ["data_governance", "planner"],
+      "outputsTo": ["data_quality", "tester", "security", "cost_optimizer", "devops"]
+    },
+    {
+      "id": "data_quality",
+      "name": "Data Quality Agent",
+      "entryPoint": false,
+      "dependsOn": ["data_engineer", "data_governance"],
+      "outputsTo": ["tester", "data_analyst", "documentation"]
+    },
+    {
+      "id": "tester",
+      "name": "Tester Agent",
+      "entryPoint": false,
+      "dependsOn": ["data_engineer"],
+      "outputsTo": ["devops", "documentation"]
+    },
+    {
+      "id": "security",
+      "name": "Security Agent",
+      "entryPoint": false,
+      "dependsOn": ["data_engineer", "data_governance"],
+      "outputsTo": ["devops", "documentation", "cost_optimizer"]
+    },
+    {
+      "id": "devops",
+      "name": "DevOps Agent",
+      "entryPoint": false,
+      "dependsOn": ["tester", "data_engineer", "security"],
+      "outputsTo": ["cost_optimizer", "documentation"]
+    },
+    {
+      "id": "cost_optimizer",
+      "name": "Cost Optimization Agent",
+      "entryPoint": false,
+      "dependsOn": ["data_engineer", "devops"],
+      "outputsTo": ["documentation", "data_engineer"]
+    },
+    {
+      "id": "documentation",
+      "name": "Documentation Agent",
+      "entryPoint": false,
+      "dependsOn": ["orchestrator", "devops", "data_governance"],
+      "outputsTo": []
+    },
+    {
+      "id": "data_analyst",
+      "name": "Data Analyst Agent",
+      "entryPoint": false,
+      "dependsOn": ["data_quality", "planner"],
+      "outputsTo": ["documentation"]
+    }
+  ],
+  "executionModes": {
+    "sequential": "Default; respects orchestration graph order.",
+    "parallel": "Where dependencies allow (e.g., security review parallel to tests)."
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "PRRereviewAgentIO",
+  "type": "object",
+  "required": ["status", "summary", "issues", "actions_taken", "recommendation"],
+  "properties": {
+    "status": { "type": "string", "enum": ["ok", "error"] },
+    "summary": { "type": "string" },
+    "issues": { "type": "array" },
+    "actions_taken": { "type": "array", "items": { "type": "string" } },
+    "recommendation": {
+      "type": "string",
+      "enum": ["APPROVE", "REQUEST_CHANGES", "ESCALATE"]
+    },
+    "resolved_original_ids": { "type": "array", "items": { "type": "string" } },
+    "unresolved_original_ids": { "type": "array", "items": { "type": "string" } }
+  }
+}

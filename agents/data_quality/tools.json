@@ -1,0 +1,9 @@
+{
+  "allowedSkills": ["data_validation", "monitoring", "sql", "python"],
+  "allowedTools": [
+    "expectation_define",
+    "anomaly_job_register",
+    "structured_log"
+  ],
+  "notes": "Monitoring skill used for DQ alerts and SLO dashboards."
+}

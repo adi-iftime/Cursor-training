@@ -1,0 +1,11 @@
+{
+  "allowedSkills": ["github", "reporting"],
+  "allowedTools": [
+    "git_branch",
+    "git_commit",
+    "open_pull_request",
+    "render_mermaid",
+    "structured_log"
+  ],
+  "notes": "GitHub skill supports PRs and repo doc updates."
+}

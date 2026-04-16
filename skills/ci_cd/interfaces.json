@@ -1,0 +1,22 @@
+{
+  "skillId": "ci_cd",
+  "version": "1.0.0",
+  "inputs": {
+    "type": "object",
+    "required": ["pipeline_name", "trigger"],
+    "properties": {
+      "pipeline_name": { "type": "string" },
+      "trigger": { "type": "string", "enum": ["push", "pr", "schedule", "manual"] },
+      "branch": { "type": "string" },
+      "environment": { "type": "string", "enum": ["dev", "stage", "prod"] }
+    }
+  },
+  "outputs": {
+    "type": "object",
+    "properties": {
+      "run_url": { "type": "string" },
+      "conclusion": { "type": "string", "enum": ["success", "failure", "cancelled"] },
+      "artifact_digest": { "type": "string" }
+    }
+  }
+}

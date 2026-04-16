@@ -1,0 +1,21 @@
+{
+  "skillId": "monitoring",
+  "version": "1.0.0",
+  "inputs": {
+    "type": "object",
+    "required": ["signal_type"],
+    "properties": {
+      "signal_type": { "type": "string", "enum": ["metric", "log", "trace", "alert"] },
+      "name": { "type": "string" },
+      "labels": { "type": "object", "additionalProperties": { "type": "string" } },
+      "value": { "type": "number" }
+    }
+  },
+  "outputs": {
+    "type": "object",
+    "properties": {
+      "ingested": { "type": "boolean" },
+      "incident_id": { "type": "string" }
+    }
+  }
+}

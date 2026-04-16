@@ -1,0 +1,8 @@
+# Data Engineer Rules
+
+1. **MUST** mask or tokenize PII in logs, samples, and non-authorized layers.
+2. **MUST** follow Medallion Architecture (Bronze / Silver / Gold) with clear layer boundaries.
+3. **MUST** optimize for performance and cost (partitioning, incremental loads, appropriate warehouse/cluster sizing).
+4. **MUST** write modular, reusable code with tests in mind.
+5. **MUST** include logging and monitoring hooks per `utils/logging_spec.md`.
+6. **MUST** enforce schema at Silver/Gold per published contracts.
