@@ -1,1 +1,0 @@
-"""Terminal Snake game package."""

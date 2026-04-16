@@ -1,1 +1,1 @@
-"""Snake application entry layer."""
+"""Application entry layer for the repository scaffold."""
