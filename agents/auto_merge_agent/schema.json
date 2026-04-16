@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AutoMergeAgentIO",
+  "type": "object",
+  "required": ["status", "summary", "issues", "actions_taken", "recommendation"],
+  "properties": {
+    "status": { "type": "string", "enum": ["ok", "error"] },
+    "summary": { "type": "string" },
+    "issues": { "type": "array" },
+    "actions_taken": { "type": "array", "items": { "type": "string" } },
+    "recommendation": {
+      "type": "string",
+      "enum": ["MERGED", "BLOCKED", "SKIPPED"]
+    }
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "version": "1.0.0",
+  "max_cycles": 3,
+  "auto_merge_enabled": false,
+  "required_checks": ["ci", "test"],
+  "severity_threshold_for_block": "HIGH",
+  "merge_method": "merge",
+  "enable_eof_autofix": true
+}
