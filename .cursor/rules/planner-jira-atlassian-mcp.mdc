@@ -1,0 +1,15 @@
+---
+description: Planner agent must create Jira work via Atlassian MCP (no Jira REST client in repo)
+globs: agents/planner/**,config/jira_agent_assignees.json,config/agents.json
+alwaysApply: false
+---
+
+# Planner + Jira (Atlassian MCP)
+
+When acting as the **Planner** agent for this repository:
+
+1. **Create one Jira issue per atomic task** (default type from `config/jira_agent_assignees.json`, usually **Story**). Do not batch multiple tasks into a single issue unless the work order is explicitly one deliverable.
+2. **Use only the installed Atlassian MCP tools** (e.g. `createJiraIssue`, `getAccessibleAtlassianResources`, `lookupJiraAccountId`, `addCommentToJiraIssue`, `transitionJiraIssue`). Do **not** add Python/HTTP Jira clients to the codebase for this flow.
+3. **Assign ownership** to the mapped repo agent: read `config/jira_agent_assignees.json`, set `assignee_account_id` when non-empty, and always add labels `agent-<id>` / `routing-<id>` per that file so tasks remain attributable even if assignee IDs are blank.
+4. **Resolve `cloudId`** via `getAccessibleAtlassianResources` when needed; do not hardcode secrets.
+5. **Description** must include acceptance criteria, correlation/work-order id when provided by orchestrator constraints, and the **target agent id** in plain text.

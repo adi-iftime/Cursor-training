@@ -1,10 +1,19 @@
 {
   "allowedSkills": ["jira"],
   "allowedTools": [
-    "jira_create_epic",
-    "jira_create_task",
-    "jira_link_dependency",
+    "atlassian_mcp_getAccessibleAtlassianResources",
+    "atlassian_mcp_lookupJiraAccountId",
+    "atlassian_mcp_createJiraIssue",
+    "atlassian_mcp_editJiraIssue",
+    "atlassian_mcp_addCommentToJiraIssue",
+    "atlassian_mcp_transitionJiraIssue",
+    "atlassian_mcp_searchJiraIssuesUsingJql",
+    "atlassian_mcp_createIssueLink",
     "structured_log"
   ],
-  "notes": "Primary owner of the Jira skill per skills.json mapping."
+  "configFiles": [
+    "config/agents.json",
+    "config/jira_agent_assignees.json"
+  ],
+  "notes": "Planner is the canonical owner of Jira issue creation per task. Use MCP tool descriptors under Cursor mcps/plugin-atlassian-atlassian/tools/ before calling. Do not implement Jira HTTP clients in app code for this workflow."
 }

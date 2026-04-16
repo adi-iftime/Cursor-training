@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "version": "1.0.0",
+  "description": "Maps repo agent ids (see config/agents.json) to Jira assignees for Planner-created issues. Default assignee: Adrian-Dumitru Iftime (712020:e0351bc9-9c1b-444a-af1f-0d6323204e6d) for all routes unless split per teammate later.",
+  "default_assignee_account_id": "712020:e0351bc9-9c1b-444a-af1f-0d6323204e6d",
+  "default_project_key": "SCRUM",
+  "default_issue_type_per_task": "Story",
+  "label_prefix": "agent-",
+  "agent_assignments": {
+    "orchestrator": {
+      "assignee_account_id": "712020:e0351bc9-9c1b-444a-af1f-0d6323204e6d",
+      "extra_labels": ["routing-orchestrator"]
+    },
+    "planner": {
+      "assignee_account_id": "712020:e0351bc9-9c1b-444a-af1f-0d6323204e6d",
+      "extra_labels": ["routing-planner"]
+    },
+    "data_governance": {
+      "assignee_account_id": "712020:e0351bc9-9c1b-444a-af1f-0d6323204e6d",
+      "extra_labels": ["routing-data_governance"]
+    },
+    "data_engineer": {
+      "assignee_account_id": "712020:e0351bc9-9c1b-444a-af1f-0d6323204e6d",
+      "extra_labels": ["routing-data_engineer"]
+    },
+    "data_quality": {
+      "assignee_account_id": "712020:e0351bc9-9c1b-444a-af1f-0d6323204e6d",
+      "extra_labels": ["routing-data_quality"]
+    },
+    "tester": {
+      "assignee_account_id": "712020:e0351bc9-9c1b-444a-af1f-0d6323204e6d",
+      "extra_labels": ["routing-tester"]
+    },
+    "security": {
+      "assignee_account_id": "712020:e0351bc9-9c1b-444a-af1f-0d6323204e6d",
+      "extra_labels": ["routing-security"]
+    },
+    "devops": {
+      "assignee_account_id": "712020:e0351bc9-9c1b-444a-af1f-0d6323204e6d",
+      "extra_labels": ["routing-devops"]
+    },
+    "cost_optimizer": {
+      "assignee_account_id": "712020:e0351bc9-9c1b-444a-af1f-0d6323204e6d",
+      "extra_labels": ["routing-cost_optimizer"]
+    },
+    "documentation": {
+      "assignee_account_id": "712020:e0351bc9-9c1b-444a-af1f-0d6323204e6d",
+      "extra_labels": ["routing-documentation"]
+    },
+    "data_analyst": {
+      "assignee_account_id": "712020:e0351bc9-9c1b-444a-af1f-0d6323204e6d",
+      "extra_labels": ["routing-data_analyst"]
+    }
+  }
+}
