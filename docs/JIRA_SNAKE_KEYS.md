@@ -1,5 +1,7 @@
 # Jira traceability — Snake DAG delivery (Atlassian MCP)
 
+Each issue description uses the same structure: **Who needs to do it** (agent role + assignee), **What needs to be done**, **Definition of done** (checkboxes), **How it is done** (files and approach).
+
 | Key | Summary |
 | --- | --- |
 | [SCRUM-6](https://levi9-team-ivfys2q6.atlassian.net/browse/SCRUM-6) | Epic: Terminal Snake game — multi-agent delivery |
