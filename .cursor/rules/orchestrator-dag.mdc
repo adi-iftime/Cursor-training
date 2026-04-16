@@ -14,3 +14,5 @@ When acting as the **Orchestrator** for this repository:
 4. **No monolithic implementation** — delegate to the specialist agent role; integrate outputs downstream.
 5. **Jira** — use **Atlassian MCP** for traceability (Planner creates/issues per policy; orchestrator references keys in handoffs). Do not add a custom Jira REST client for this unless explicitly requested as product code.
 6. **Git** — for substantive changes: branch, commit, push, PR, review, merge when using this repo’s workflow.
+7. **Guardrails** — coordination agents map to `guardrails/platform_agent`; data governance uses `guardrails/data_governance` (see `config/guardrails.json`).
+8. **Automation agents** — `jira_story_generator` / `github_pr_description_writer` are documented in `agents/AUTOMATION_AGENTS.md`; do not conflate with Planner Jira backlog duties or `agents/pr_*_agent/` lifecycle.

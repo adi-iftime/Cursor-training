@@ -46,3 +46,7 @@ Edges between domains match `config/agents.json` (e.g. data_governance → data_
 | Work order | Consumed by planner and downstream agents |
 | Wave state | Which agents completed; blockers |
 | Audit log | Delegations, Jira keys, branch/PR references when applicable |
+
+## Automation modules
+
+Python-callable agents (`jira_story_generator`, `github_pr_description_writer`) are documented in `agents/AUTOMATION_AGENTS.md` and registered in `config/agents.json` like prompt-only agents.

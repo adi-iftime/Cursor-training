@@ -1,19 +1,19 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Reusable skills registry and primary agent ownership",
   "skills": [
     {
       "id": "jira",
       "path": "skills/jira",
-      "primaryAgents": ["planner"],
-      "secondaryAgents": ["orchestrator", "documentation"]
+      "primaryAgents": ["planner", "jira_story_generator"],
+      "secondaryAgents": ["orchestrator", "documentation", "github_pr_description_writer"]
     },
     {
       "id": "github",
       "path": "skills/github",
-      "primaryAgents": ["documentation", "devops"],
-      "secondaryAgents": ["tester", "data_engineer"]
+      "primaryAgents": ["documentation", "devops", "github_pr_description_writer"],
+      "secondaryAgents": ["tester", "data_engineer", "jira_story_generator"]
     },
     {
       "id": "databricks",

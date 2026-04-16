@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Guardrail registry and enforcement mapping",
   "global": {
     "path": "guardrails/global",
@@ -14,6 +14,14 @@
     ]
   },
   "byAgent": {
+    "orchestrator": "guardrails/platform_agent",
+    "planner": "guardrails/platform_agent",
+    "jira_story_generator": "guardrails/platform_agent",
+    "github_pr_description_writer": "guardrails/platform_agent",
+    "tester": "guardrails/platform_agent",
+    "devops": "guardrails/platform_agent",
+    "documentation": "guardrails/platform_agent",
+    "data_governance": "guardrails/data_governance",
     "data_engineer": "guardrails/data_engineer",
     "data_analyst": "guardrails/data_analyst",
     "security": "guardrails/security",

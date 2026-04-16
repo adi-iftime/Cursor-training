@@ -1,12 +1,13 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "DAG execution schedule for Cursor Orchestrator. Agent ids MUST match config/agents.json exactly. Parallel waves list agents that may run concurrently when all their dependsOn (from agents.json) are satisfied.",
   "agents_registry": "config/agents.json",
   "rules": {
     "parallelism": "Within a wave marked parallel=true, run only agents whose dependencies are all complete; agents in the same wave must not depend on each other.",
-    "jira": "Use Atlassian MCP for Planner-issued issues; per-agent execution should be traceable (issue keys, comments, assignees from config/jira_agent_assignees.json).",
-    "git": "Meaningful work: feature branch, commit, push, PR, review, merge — as applicable to the repo workflow."
+    "jira": "Atlassian MCP: `jira_story_generator` may create the orchestrator Story; Planner creates per-task issues and epics. Traceability via issue keys, comments, assignees per config/jira_agent_assignees.json.",
+    "git": "Meaningful work: feature branch, commit, push, PR, review, merge — as applicable to the repo workflow.",
+    "github_product": "PR description updates use github.client.GitHubClient only (see github_pr_description_writer); PR lifecycle review/fix/merge agents are separate under agents/pr_*_agent/."
   },
   "waves": [
     {

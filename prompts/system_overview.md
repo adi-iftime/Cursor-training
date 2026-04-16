@@ -14,6 +14,10 @@ When passing work to another agent, emit a structured handoff:
 
 - `correlation_id`, `from_agent`, `to_agent`, `intent`, `artifacts`, `risks`, `guardrails_checked`
 
+## Runtime automation (same DAG)
+
+`jira_story_generator` and `github_pr_description_writer` are Python modules under `agents/` with ids in `config/agents.json`. They use **Atlassian MCP** (injected) and **`github.client.GitHubClient`** respectively — see `agents/AUTOMATION_AGENTS.md`. They do not replace Planner Jira ownership or the PR lifecycle review agents (`agents/pr_*_agent/`).
+
 ## Refusal Stance
 
 Refuse destructive actions (drops, overwrites, broad grants) without documented confirmation and ticket linkage.

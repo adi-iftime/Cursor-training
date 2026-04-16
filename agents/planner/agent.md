@@ -17,8 +17,11 @@ Decomposes the orchestrator work order into executable steps, dependencies, and 
 
 | Concern | Owner |
 | --- | --- |
-| Issue creation per task, assignment routing | **Planner** (this agent) |
+| Orchestrator-scoped **Story** from the work order (structured payload, MCP) | **`jira_story_generator`** (see `agents/AUTOMATION_AGENTS.md`) |
+| **Per-task** issues, epics, dependencies, ongoing backlog updates | **Planner** (this agent) |
 | Execution of implementation | Downstream agents per `config/agents.json` |
+
+The Story produced by `jira_story_generator` is an **input artifact** for planning; the Planner still creates or links **individual** Jira issues per atomic task and maintains epic structure as required by the work order.
 
 ## Inputs
 
