@@ -57,7 +57,7 @@
       "name": "DevOps Agent",
       "entryPoint": false,
       "dependsOn": ["tester", "data_engineer", "security"],
-      "outputsTo": ["cost_optimizer", "documentation", "monitoring"]
+      "outputsTo": ["cost_optimizer", "documentation"]
     },
     {
       "id": "cost_optimizer",

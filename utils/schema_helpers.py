@@ -11,8 +11,16 @@ from typing import Any, Mapping
 
 
 def load_json(path: str | Path) -> Any:
-    with open(path, encoding="utf-8") as f:
-        return json.load(f)
+    p = Path(path)
+    try:
+        with p.open(encoding="utf-8") as f:
+            return json.load(f)
+    except FileNotFoundError as e:
+        raise FileNotFoundError(f"Config file not found: {p}") from e
+    except json.JSONDecodeError as e:
+        raise ValueError(
+            f"Invalid JSON in {p}: line {e.lineno} column {e.colno}: {e.msg}"
+        ) from e
 
 
 def require_keys(obj: Mapping[str, Any], keys: tuple[str, ...], *, context: str) -> None:
