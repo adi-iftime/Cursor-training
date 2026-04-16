@@ -1,0 +1,45 @@
+---
+description: When writing Jira stories/epics for new features or apps, use Atlassian MCP (create/update issues), not file-only backlog.
+globs:
+  - "**/*"
+alwaysApply: true
+---
+
+# Jira stories — Atlassian MCP (mandatory path)
+
+## When this applies
+
+Whenever the user (or work order) asks to **write a Jira story**, **epic**, **backlog item**, or **Jira documentation** for:
+
+- a **new feature**, **new application**, **greenfield** work, or  
+- **implementing** scoped work that should be tracked in Jira,
+
+the agent **must** use the **Atlassian MCP** server (`plugin-atlassian-atlassian`) to **create or update Jira issues**, not only add markdown under `docs/`.
+
+If the user **explicitly** says *local file only*, *no Jira*, or *draft in repo first*, then produce `docs/jira/…` or the requested path **and** skip MCP until they confirm creation.
+
+## Required tool flow (in order)
+
+1. **`getAccessibleAtlassianResources`** — resolve **`cloudId`** for API calls.
+2. If **project key** is unknown — **`getVisibleJiraProjects`** with `action: "create"` (or ask the user for the project key).
+3. **`getJiraProjectIssueTypesMetadata`** / **`getJiraIssueTypeMetaWithFields`** — discover **issue types** (Epic, Story, Task) and **required custom fields** (Epic Name, parent Epic link, etc.).
+4. **`createJiraIssue`** — supply:
+   - `cloudId`, `projectKey`, `issueTypeName`, `summary`
+   - `description` — structured markdown (sections: context, scope, AC, links); set **`contentFormat`: `"markdown"`** unless ADF is required
+   - **`additional_fields`** — `labels`, `priority`, components, Epic/parent keys, or other custom fields per metadata
+5. After creation — optionally **`addCommentToJiraIssue`** with repo links or PR correlation; **`transitionJiraIssue`** if the workflow requires a transition from the create screen.
+
+## Collaboration with Planner / Jira Story Writer
+
+- Align with **`config/jira_agent_assignees.json`** and **`.cursor/rules/planner-jira-atlassian-mcp.mdc`** for **assignees**, **labels** (`agent-*`, `routing-*`), and **one issue per atomic task** when the Planner breaks work down.
+- Prefer **Epic first**, then **child Stories/Tasks** linked per project rules (use issue links or parent fields as returned by metadata).
+
+## Do not
+
+- Add a **Python/HTTP Jira client** to this repository for this flow unless the repo already standardizes on it for CI; prefer MCP for interactive agent use.
+- Treat **`docs/JIRA_STORY_*.md`** as a substitute for a Jira record when the user wanted Jira — the doc is a **template and audit trail**; the **system of record** is Jira when this rule applies.
+
+## Reference templates
+
+- Blueprint story body: `docs/JIRA_STORY_MULTI_AGENT_BLUEPRINT.md`
+- Planner Jira policy: `.cursor/rules/planner-jira-atlassian-mcp.mdc`
