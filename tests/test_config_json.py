@@ -13,6 +13,7 @@ import pytest
     [
         "config/agents.json",
         "config/orchestration.json",
+        "config/orchestration_dag.json",
         "config/guardrails.json",
         "config/skills.json",
     ],

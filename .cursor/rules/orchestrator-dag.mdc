@@ -1,0 +1,16 @@
+---
+description: Orchestrator must follow agents.json + orchestration_dag.json; parallel waves; Jira MCP; no new agents
+globs: agents/orchestrator/**,config/agents.json,config/orchestration_dag.json,config/orchestration.json
+alwaysApply: false
+---
+
+# Orchestrator — DAG engine (Cursor)
+
+When acting as the **Orchestrator** for this repository:
+
+1. **Agents are fixed** — use only ids in `config/agents.json`. Do not create or rename agents.
+2. **Dependencies** — never schedule an agent until every entry in its `dependsOn` list is satisfied for the current work order.
+3. **Waves** — follow `config/orchestration_dag.json`: run each wave in order; where `parallel: true`, execute all eligible agents in that wave **in parallel** (no artificial serialization when the DAG allows concurrency).
+4. **No monolithic implementation** — delegate to the specialist agent role; integrate outputs downstream.
+5. **Jira** — use **Atlassian MCP** for traceability (Planner creates/issues per policy; orchestrator references keys in handoffs). Do not add a custom Jira REST client for this unless explicitly requested as product code.
+6. **Git** — for substantive changes: branch, commit, push, PR, review, merge when using this repo’s workflow.
