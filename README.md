@@ -1,31 +1,42 @@
-# Multi-Agent Data Platform (Scaffold)
+# Multi-agent product engineering blueprint
 
-Production-oriented scaffold for **governed data engineering** with specialized agents, reusable skills, guardrails, and observability hooks.
+Reusable **Cursor** blueprint for governed software delivery: **Orchestrator → Planner → parallel workers → validate → PR → merge**.
 
-## Layout
+## Start here
 
+| Resource | Purpose |
+| --- | --- |
+| [docs/MULTI_AGENT_BLUEPRINT.md](docs/MULTI_AGENT_BLUEPRINT.md) | Full architecture, agent I/O, parallel execution, security/cost gates, example prompt flow |
+| [workflows/orchestration.md](workflows/orchestration.md) | Mandatory orchestrator entry |
+| [workflows/planning.md](workflows/planning.md) | Planner and backlog |
+| [workflows/execution.md](workflows/execution.md) | Parallel workers, ownership, sync points |
+| [workflows/pr-process.md](workflows/pr-process.md) | git + `gh` delivery |
+| [standards/](standards/) | coding, architecture, data, testing, security, cost |
+| [.cursor/agents/](.cursor/agents/) | Cursor-facing agent definitions (YAML + role docs) |
+| [config/agents.json](config/agents.json) | DAG registry for automation |
 
-| Path          | Purpose                                                                    |
-| ------------- | -------------------------------------------------------------------------- |
-| `agents/`     | Agent definitions: `agent.md`, `prompt.md`, `tools.json`, `constraints.md` |
-| `skills/`     | Reusable capabilities with `skill.md`, `examples.md`, `interfaces.json`    |
-| `guardrails/` | Global and domain rules: `rules.md`, `checks.md`, `examples.md`            |
-| `config/`     | `agents.json`, `orchestration.json`, `guardrails.json`, `skills.json`      |
-| `prompts/`    | Shared prompts (e.g. `system_overview.md`)                                 |
-| `utils/`      | Helpers and logging standards                                              |
-| `examples/`   | Sample request, orchestration flow, example outputs                        |
+## Repository shape (this project)
 
+| Path | Purpose |
+| --- | --- |
+| `agents/` | Rich agent packages: `agent.md`, `prompt.md`, `tools.json`, `constraints.md` |
+| `skills/` | Reusable capabilities |
+| `guardrails/` | Domain rules |
+| `config/` | Agents, orchestration, guardrails, skills |
+| `prompts/` | Shared prompts |
+| `utils/` | Helpers and logging |
+| `examples/` | Sample flows |
 
 ## Quick start
 
-1. Read `prompts/system_overview.md` and `config/orchestration.json` for the canonical flow.
-2. Map runtime tool adapters to `agents/*/tools.json` and `skills/*/interfaces.json`.
-3. Enforce guardrails via automated checks aligned with `guardrails/*/checks.md`.
+1. Read `docs/MULTI_AGENT_BLUEPRINT.md`.
+2. Open `.cursor/agents/orchestrator.md` for the entry role; use `planner.md` and worker agents as needed.
+3. Enforce policies via `.cursor/rules/` and `config/agents.json`.
 
 ## Observability
 
-See `utils/logging_spec.md` for structured logging, metrics, and pipeline monitoring hooks.
+See `utils/logging_spec.md` for structured logging and correlation ids.
 
 ## Extension
 
-Add agents or skills by copying an existing folder pattern and registering entries in `config/agents.json` and `config/skills.json`.
+Add agents by following an existing folder under `agents/`, registering in `config/agents.json`, and adding a stub under `.cursor/agents/` if Cursor should surface the role.

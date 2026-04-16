@@ -1,16 +1,24 @@
-"""Story structure standards aligned with skills/jira/interfaces.json and Planner conventions."""
+"""Strict Jira Story body structure — orchestrator-enforced standard."""
 
 from __future__ import annotations
 
 import re
 from typing import Iterable
 
-# Markdown headings the agent enforces so stories stay machine-parseable and reviewable.
+# All sections MUST appear in generated Story descriptions (## headings).
 REQUIRED_STORY_SECTION_MARKERS: tuple[str, ...] = (
-    "## Context",
-    "## Acceptance criteria",
+    "## Summary",
+    "## Description",
+    "## Goal",
+    "## Scope",
+    "## Assigned agents",
     "## Dependencies",
-    "## Agent assignment",
+    "## File and module impact",
+    "## Acceptance criteria",
+    "## Testing requirements",
+    "## Implementation notes",
+    "## Edge cases",
+    "## Definition of Done",
 )
 
 _SECTION_PATTERN = re.compile(r"^##\s+.+$", re.MULTILINE)

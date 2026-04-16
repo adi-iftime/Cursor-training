@@ -1,13 +1,17 @@
 {
   "skillId": "jira",
-  "version": "1.0.0",
+  "version": "1.1.0",
+  "description": "Jira work aligned with strict Story template (see jira/templates.py) and MCP-only writes for orchestrator flows.",
   "inputs": {
     "type": "object",
     "required": ["correlation_id", "title", "body_markdown"],
     "properties": {
       "correlation_id": { "type": "string" },
       "title": { "type": "string" },
-      "body_markdown": { "type": "string" },
+      "body_markdown": {
+        "type": "string",
+        "description": "Must contain all REQUIRED_STORY_SECTION_MARKERS from jira/templates.py"
+      },
       "issue_type": { "type": "string", "enum": ["Epic", "Story", "Task", "Bug"] },
       "labels": { "type": "array", "items": { "type": "string" } },
       "parent_key": { "type": "string" }

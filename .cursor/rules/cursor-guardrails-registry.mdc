@@ -1,0 +1,11 @@
+---
+description: Maps agent ids to guardrail directories (config/guardrails.json)
+globs: config/guardrails.json
+alwaysApply: false
+---
+
+# Guardrail registry
+
+`config/guardrails.json` lists `byAgent` paths under `guardrails/`. Coordination agents use `guardrails/platform_agent`; data governance uses `guardrails/data_governance`.
+
+When adding an agent id to `config/agents.json`, add or reuse a matching `byAgent` entry and keep `guardrails/<domain>/rules.md` in sync.

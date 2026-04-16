@@ -97,3 +97,9 @@
 - No removal of core domain agents or merger of `pr_*_agent` with DAG agents.
 - No new orchestration engine or external framework.
 - No change to Python agent APIs beyond documentation.
+
+---
+
+## 6. Follow-up policy (2026 — balanced Jira)
+
+Subsequent updates introduced **`jira_required`** classification: Jira Stories only for feature-level work; **universal** PR format (`github/pr_templates.py`) for every change, with **Related Jira** or **`No Jira story required (non-feature change)`**. Planner no longer depends on `jira_story_generator` in `config/agents.json`; see current orchestrator prompt and `traceability-jira-github.mdc`.

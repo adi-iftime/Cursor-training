@@ -1,0 +1,29 @@
+---
+description: Balanced Jira (feature-only) + universal PR format; MCP + GitHubClient
+globs: agents/orchestrator/**,agents/jira_story_generator.py,agents/github_pr_description_writer.py,jira/**,github/pr_*.py,config/orchestration_dag.json
+alwaysApply: false
+---
+
+# Traceability — Jira (optional) + GitHub (mandatory)
+
+## Orchestrator classification
+
+1. Set **`jira_required`** on the work order: **true** only for new features, major functional changes, or new modules/services/components.
+2. If **`jira_required: false`**, do **not** run **`jira_story_generator`** for that work order.
+
+## When Jira IS required
+
+- Create the Story via **`jira_story_generator`** + Atlassian **MCP** only.
+- Story body MUST include every `##` section in `jira/templates.py`.
+
+## GitHub — every PR
+
+1. Use the section order in `github/pr_templates.py` (Summary through Related Jira Story).
+2. Under **### 🔗 Related Jira Story**, either:
+   - list `- KEY: URL` (use **`JIRA_BROWSE_BASE`**), **or**
+   - the exact line: **`No Jira story required (non-feature change)`**
+3. Use **`github.client.GitHubClient`** for automated PR body updates.
+
+## GitHub product code
+
+No parallel ad-hoc GitHub HTTP stacks for flows covered by `GitHubClient`.

@@ -18,6 +18,8 @@ When passing work to another agent, emit a structured handoff:
 
 `jira_story_generator` and `github_pr_description_writer` are Python modules under `agents/` with ids in `config/agents.json`. They use **Atlassian MCP** (injected) and **`github.client.GitHubClient`** respectively — see `agents/AUTOMATION_AGENTS.md`. They do not replace Planner Jira ownership or the PR lifecycle review agents (`agents/pr_*_agent/`).
 
+**Governance:** Classify work as feature-level vs maintenance. Create a Jira Story (full template in `jira/templates.py`) **only** for feature-level changes. **Every** PR uses the universal sections in `github/pr_templates.py`; the Related Jira section lists keys **or** `No Jira story required (non-feature change)`. Configure **`JIRA_BROWSE_BASE`** when linking tickets.
+
 ## Refusal Stance
 
 Refuse destructive actions (drops, overwrites, broad grants) without documented confirmation and ticket linkage.

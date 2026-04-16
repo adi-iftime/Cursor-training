@@ -1,32 +1,33 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "DAG execution schedule for Cursor Orchestrator. Agent ids MUST match config/agents.json exactly. Parallel waves list agents that may run concurrently when all their dependsOn (from agents.json) are satisfied.",
   "agents_registry": "config/agents.json",
   "rules": {
     "parallelism": "Within a wave marked parallel=true, run only agents whose dependencies are all complete; agents in the same wave must not depend on each other.",
-    "jira": "Atlassian MCP: `jira_story_generator` may create the orchestrator Story; Planner creates per-task issues and epics. Traceability via issue keys, comments, assignees per config/jira_agent_assignees.json.",
+    "jira": "Create a Jira Story via MCP + jira_story_generator ONLY for feature-level work (new capability, significant functional change, new module/service). Skip for refactors, minor fixes, docs-only, config tweaks, deps bumps. When created, full strict template in jira/templates.py. Planner still owns per-task Jira backlog via MCP.",
     "git": "Meaningful work: feature branch, commit, push, PR, review, merge — as applicable to the repo workflow.",
-    "github_product": "PR description updates use github.client.GitHubClient only (see github_pr_description_writer); PR lifecycle review/fix/merge agents are separate under agents/pr_*_agent/."
+    "github_product": "PR description updates use github.client.GitHubClient only (see github_pr_description_writer); PR lifecycle review/fix/merge agents are separate under agents/pr_*_agent/.",
+    "traceability": "ALL PRs use github/pr_templates.py (universal sections). Related Jira: list keys + URLs when a Story exists; otherwise exact line from NO_JIRA_STORY_LINE in github/pr_templates.py. JIRA_BROWSE_BASE for URLs when keys present."
   },
   "waves": [
     {
       "id": "wave_intake",
       "parallel": false,
       "agents": ["orchestrator"],
-      "notes": "STEP 1 — receive user request, emit work order with correlation_id"
+      "notes": "STEP 1 — classify work order: feature-level vs maintenance; set jira_required flag for downstream"
     },
     {
       "id": "wave_jira_story",
       "parallel": false,
       "agents": ["jira_story_generator"],
-      "notes": "STEP 2 — structured Jira Story from orchestrator task via Atlassian MCP; unlocks planner"
+      "notes": "OPTIONAL in practice — run only when orchestrator classifies feature-level scope; otherwise skip agent invocation. When run: MCP Story with full template."
     },
     {
       "id": "wave_planner",
       "parallel": false,
       "agents": ["planner"],
-      "notes": "STEP 3 — architecture, module breakdown, Jira alignment (MCP); depends on orchestrator + jira_story_generator"
+      "notes": "STEP 2 — plan; depends on orchestrator only (DAG). May consume Jira keys from jira_story_generator when present."
     },
     {
       "id": "wave_governance",
@@ -56,7 +57,7 @@
       "id": "wave_pr_description",
       "parallel": false,
       "agents": ["github_pr_description_writer"],
-      "notes": "Structured PR body on GitHub via existing GitHubClient; requires devops + jira_story_generator per agents.json"
+      "notes": "Universal PR body via GitHubClient; devops dependency only; Jira section optional per work order"
     },
     {
       "id": "wave_parallel_optimize_insight",

@@ -16,3 +16,4 @@ When acting as the **Orchestrator** for this repository:
 6. **Git** — for substantive changes: branch, commit, push, PR, review, merge when using this repo’s workflow.
 7. **Guardrails** — coordination agents map to `guardrails/platform_agent`; data governance uses `guardrails/data_governance` (see `config/guardrails.json`).
 8. **Automation agents** — `jira_story_generator` / `github_pr_description_writer` are documented in `agents/AUTOMATION_AGENTS.md`; do not conflate with Planner Jira backlog duties or `agents/pr_*_agent/` lifecycle.
+9. **Traceability** — See `.cursor/rules/traceability-jira-github.mdc`: Jira Story only for feature-level work; universal PR format for every PR; `JIRA_BROWSE_BASE` when linking Jira keys.

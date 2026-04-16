@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Registry of agents in the multi-agent data platform",
   "agents": [
     {
@@ -21,7 +21,7 @@
       "id": "planner",
       "name": "Planner Agent",
       "entryPoint": false,
-      "dependsOn": ["orchestrator", "jira_story_generator"],
+      "dependsOn": ["orchestrator"],
       "outputsTo": ["data_governance", "data_engineer", "tester", "devops"]
     },
     {
@@ -70,7 +70,7 @@
       "id": "github_pr_description_writer",
       "name": "GitHub PR Description Writer Agent",
       "entryPoint": false,
-      "dependsOn": ["devops", "jira_story_generator"],
+      "dependsOn": ["devops"],
       "outputsTo": ["documentation"]
     },
     {
