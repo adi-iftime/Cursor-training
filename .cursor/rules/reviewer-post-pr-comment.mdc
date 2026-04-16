@@ -1,0 +1,30 @@
+---
+description: Reviewer sub-agent — post every PR review as a GitHub PR comment
+alwaysApply: true
+---
+
+# Reviewer: publish review on the PR
+
+When the task is a **pull request code review** for this repository (including when acting as the **Reviewer** sub-agent, running `pr_review` / lifecycle flows, or when the user says **review PR** / **review this PR**), you must **not** leave the review only in chat.
+
+## Required behavior
+
+1. **Produce** the same structured review you would normally write (summary, severity, file/line references, recommendation: approve / request changes / comment).
+2. **Post it on GitHub** as a **single PR comment** on the pull request under review (top-level issue comment is fine unless the user asks for inline review comments only).
+3. Use the **`gh` CLI** when available, for example:
+   - `gh pr comment <number> --repo <owner>/<repo> --body-file <path>`  
+   Prefer `--body-file` so the body can include markdown and multiline content without shell-escaping issues.
+4. If `gh` is not available or authentication fails, **say so explicitly** and paste the **full** review text in the chat so the user can paste it manually—do not silently skip publication.
+
+## Content of the comment
+
+Include at minimum:
+
+- Verdict / recommendation (e.g. approve, request changes, nit-level comments).
+- Bulleted findings with **file paths** and, when possible, **line ranges** or diff hunk references.
+- Any **blocking** issues called out first.
+
+## Do not
+
+- Replace GitHub publication with only “see above” without having actually posted when `gh` works.
+- Post secrets, tokens, or raw environment values in the comment.
