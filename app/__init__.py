@@ -1,0 +1,1 @@
+"""Snake application entry layer."""
