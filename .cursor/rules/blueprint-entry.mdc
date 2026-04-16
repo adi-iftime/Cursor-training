@@ -16,3 +16,5 @@ alwaysApply: true
 4. **Standards:** Apply `standards/coding.md`, `standards/architecture.md`, `standards/data.md`, `standards/testing.md`, `standards/security.md`, `standards/cost.md` for cross-cutting decisions.
 
 5. **Parallelism:** Independent tasks may proceed in parallel only when **dependencies** and **file ownership** from the plan allow it (`workflows/execution.md`).
+
+6. **Jira backlog requests:** Keywords **jira** / **ticket** / **story** / **epic** (backlog intent) → delegate per **`.cursor/agents/orchestrator.md`**; issues are created via **Atlassian MCP** only (`.cursor/rules/jira-atlassian-mcp-stories.mdc`).

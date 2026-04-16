@@ -1,45 +1,33 @@
 ---
-description: When writing Jira stories/epics for new features or apps, use Atlassian MCP (create/update issues), not file-only backlog.
+description: Jira issues ONLY via Atlassian MCP; no plain-text ticket deliverables; orchestrator delegates jira/ticket/story/epic.
 globs:
   - "**/*"
 alwaysApply: true
 ---
 
-# Jira stories — Atlassian MCP (mandatory path)
+# Jira — Atlassian MCP only (non-bypassable)
 
-## When this applies
+## Triggers
 
-Whenever the user (or work order) asks to **write a Jira story**, **epic**, **backlog item**, or **Jira documentation** for:
+Whenever the user asks to **create**, **write**, or **update** a **Jira** issue — including **Epic**, **Story**, **Task**, **ticket**, or **backlog item** — or uses keywords **`jira`**, **`ticket`**, **`story`**, **`epic`** for backlog work:
 
-- a **new feature**, **new application**, **greenfield** work, or  
-- **implementing** scoped work that should be tracked in Jira,
+1. **Orchestrator** routes to **Jira Writer / jira-story-generator** per `.cursor/agents/orchestrator.md`. Do not answer with a full ticket draft as the deliverable.
+2. **MANDATORY:** Use **Atlassian MCP** (`plugin-atlassian-atlassian`): at minimum `getAccessibleAtlassianResources`, then `createJiraIssue` (or `editJiraIssue` for updates). Build `summary` / `description` **for the API payload**; do not paste the full body as the user-visible substitute for creating the issue.
+3. **SUCCESS response:** Confirm creation and give **issue key** + **link** (minimal text).
+4. **MCP unavailable:** Reply with **exactly** `MCP tool not available` and nothing else (no ticket template).
+5. **FAILURE:** Ending without an MCP write when the user asked for a Jira issue = **failed task**.
 
-the agent **must** use the **Atlassian MCP** server (`plugin-atlassian-atlassian`) to **create or update Jira issues**, not only add markdown under `docs/`.
+## Forbidden
 
-If the user **explicitly** says *local file only*, *no Jira*, or *draft in repo first*, then produce `docs/jira/…` or the requested path **and** skip MCP until they confirm creation.
+- “Here is your story you can paste into Jira” as the primary output when MCP can run.
+- Skipping MCP to “save time” or provide markdown in `docs/` **instead of** creating the issue — **unless** the user explicitly opts out of Jira **and** MCP is not required for that message.
 
-## Required tool flow (in order)
+## Tool flow (reference)
 
-1. **`getAccessibleAtlassianResources`** — resolve **`cloudId`** for API calls.
-2. If **project key** is unknown — **`getVisibleJiraProjects`** with `action: "create"` (or ask the user for the project key).
-3. **`getJiraProjectIssueTypesMetadata`** / **`getJiraIssueTypeMetaWithFields`** — discover **issue types** (Epic, Story, Task) and **required custom fields** (Epic Name, parent Epic link, etc.).
-4. **`createJiraIssue`** — supply:
-   - `cloudId`, `projectKey`, `issueTypeName`, `summary`
-   - `description` — structured markdown (sections: context, scope, AC, links); set **`contentFormat`: `"markdown"`** unless ADF is required
-   - **`additional_fields`** — `labels`, `priority`, components, Epic/parent keys, or other custom fields per metadata
-5. After creation — optionally **`addCommentToJiraIssue`** with repo links or PR correlation; **`transitionJiraIssue`** if the workflow requires a transition from the create screen.
+`getAccessibleAtlassianResources` → `getVisibleJiraProjects` (if needed) → `getJiraProjectIssueTypesMetadata` / `getJiraIssueTypeMetaWithFields` → **`createJiraIssue`** (`contentFormat: "markdown"` where supported) → `additional_fields` for labels, Epic link, etc.
 
-## Collaboration with Planner / Jira Story Writer
+## Related
 
-- Align with **`config/jira_agent_assignees.json`** and **`.cursor/rules/planner-jira-atlassian-mcp.mdc`** for **assignees**, **labels** (`agent-*`, `routing-*`), and **one issue per atomic task** when the Planner breaks work down.
-- Prefer **Epic first**, then **child Stories/Tasks** linked per project rules (use issue links or parent fields as returned by metadata).
-
-## Do not
-
-- Add a **Python/HTTP Jira client** to this repository for this flow unless the repo already standardizes on it for CI; prefer MCP for interactive agent use.
-- Treat **`docs/JIRA_STORY_*.md`** as a substitute for a Jira record when the user wanted Jira — the doc is a **template and audit trail**; the **system of record** is Jira when this rule applies.
-
-## Reference templates
-
-- Blueprint story body: `docs/JIRA_STORY_MULTI_AGENT_BLUEPRINT.md`
-- Planner Jira policy: `.cursor/rules/planner-jira-atlassian-mcp.mdc`
+- Jira agents: `.cursor/agents/jira-writer.md`, `.cursor/agents/jira-story-generator.md`
+- Workflow: `workflows/orchestration.md` (Jira Execution Policy)
+- Planner Jira: `.cursor/rules/planner-jira-atlassian-mcp.mdc`

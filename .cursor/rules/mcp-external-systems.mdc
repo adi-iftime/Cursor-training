@@ -1,0 +1,22 @@
+---
+description: External systems must be driven via MCP/APIs/CLI; no fake ticket/PR/issue output when real execution is possible.
+globs:
+  - "**/*"
+alwaysApply: true
+---
+
+# External systems — tool execution (global)
+
+## Rule
+
+- **Jira, Confluence, GitHub, Slack,** and other integrated systems MUST be acted on through **real tools**: **MCP** (e.g. Atlassian `plugin-atlassian-atlassian`), **official APIs**, or **documented CLIs** (`gh`, etc.) when the user expects an effect in that system.
+- **Simulated** or **fabricated** outputs (fake issue keys, invented URLs, placeholder “created PROJ-123” without a tool call) are **FORBIDDEN** when the tool could run.
+- If a tool **cannot** run, state that **fact** briefly (e.g. `MCP tool not available` for Jira per Jira agent policy) — do not substitute a pretend success.
+
+## Jira-specific
+
+Stricter policy: `.cursor/rules/jira-atlassian-mcp-stories.mdc` and `.cursor/agents/jira-writer.md`.
+
+## Rationale
+
+Keeps traceability honest and prevents bypassing governance by chat-only “ticket” text.

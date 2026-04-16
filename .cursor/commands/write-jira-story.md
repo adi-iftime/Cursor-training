@@ -1,16 +1,15 @@
 ---
 name: write-jira-story
-description: Create or update Jira epic/story for a feature or app using Atlassian MCP (not file-only)
+description: Create Jira Epic/Story/Task via Atlassian MCP only; never paste ticket text as deliverable.
 ---
 
-# Write a Jira story (Atlassian MCP)
+# Write a Jira issue (MCP mandatory)
 
-When the user asks for a **Jira story**, **epic**, or **backlog** for a **new feature** or **application**:
+When the user wants a **Jira ticket / story / epic**:
 
-1. Follow **`.cursor/rules/jira-atlassian-mcp-stories.mdc`** — use **Atlassian MCP** to create/update issues.
-2. Resolve **`cloudId`** with `getAccessibleAtlassianResources`; resolve **project key** with `getVisibleJiraProjects` or ask the user.
-3. Use `getJiraIssueTypeMetaWithFields` / `getJiraProjectIssueTypesMetadata` for required fields.
-4. Call `createJiraIssue` with `contentFormat: "markdown"` for the description.
-5. Use **`docs/JIRA_STORY_MULTI_AGENT_BLUEPRINT.md`** as the **format reference** for sections (Summary, user story, description, acceptance criteria).
+1. Follow **`.cursor/agents/jira-writer.md`** (same as **jira-story-generator**).
+2. Call **Atlassian MCP** `createJiraIssue` after resolving `cloudId` and project/issue metadata.
+3. Return **issue key + URL** only — not a copy-paste ticket body.
+4. If MCP cannot run → output exactly: `MCP tool not available`
 
-Optional: save a copy under `docs/jira/` for the repo audit trail **after** the Jira issue exists, and link the Jira key in the doc footer.
+Do not satisfy the request with markdown-only ticket text. See **`workflows/orchestration.md`** (Jira Execution Policy).
