@@ -7,15 +7,28 @@ from github.pr_service import PullRequestContext, evaluate_ci_passed
 
 
 def test_analyze_diff_detects_aws_key() -> None:
+    # Not a known documentation placeholder — should still flag.
     diff = """
 diff --git a/x.py b/x.py
 --- a/x.py
 +++ b/x.py
 @@ -1 +1 @@
-+key = AKIAIOSFODNN7EXAMPLE
++key = AKIA1234567890ABCDEF
 """
     issues = analyze_diff(diff)
     assert any(i["type"] == "possible_secret_aws_key" for i in issues)
+
+
+def test_analyze_diff_allows_documented_aws_example_key() -> None:
+    diff = """
+diff --git a/tests/test_x.py b/tests/test_x.py
+--- a/tests/test_x.py
++++ b/tests/test_x.py
+@@ -1 +1 @@
++key = AKIAIOSFODNN7EXAMPLE
+"""
+    issues = analyze_diff(diff)
+    assert not any(i["type"] == "possible_secret_aws_key" for i in issues)
 
 
 def test_analyze_diff_merge_conflict() -> None:

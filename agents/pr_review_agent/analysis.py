@@ -16,6 +16,23 @@ def _issue_id(parts: str) -> str:
 
 
 _AWS_KEY = re.compile(r"\bAKIA[0-9A-Z]{16}\b")
+
+# AWS documentation / SDK examples — must not be treated as leaked credentials.
+_KNOWN_PLACEHOLDER_AWS_ACCESS_KEY_IDS: frozenset[str] = frozenset(
+    {
+        "AKIAIOSFODNN7EXAMPLE",  # canonical doc / IAM examples
+    }
+)
+
+
+def _line_has_non_placeholder_aws_key(text: str) -> bool:
+    """True if any AKIA… match is not a known documentation placeholder."""
+    for m in _AWS_KEY.finditer(text):
+        if m.group(0) not in _KNOWN_PLACEHOLDER_AWS_ACCESS_KEY_IDS:
+            return True
+    return False
+
+
 _GH_TOKEN = re.compile(r"\b(ghp_[a-zA-Z0-9]{36}|github_pat_[a-zA-Z0-9_]+)\b")
 _PEM = re.compile(r"-----BEGIN (RSA |EC |OPENSSH )?PRIVATE KEY-----")
 _MERGE = re.compile(r"^<<<<<<< ", re.M)
@@ -37,7 +54,7 @@ def analyze_diff(diff_text: str) -> list[dict[str, Any]]:
         if line.startswith("+") and not line.startswith("+++"):
             line_in_file += 1
             text = line[1:]
-            if _AWS_KEY.search(text):
+            if _AWS_KEY.search(text) and _line_has_non_placeholder_aws_key(text):
                 issues.append(
                     {
                         "id": _issue_id(f"aws:{current_file}:{line_in_file}"),
