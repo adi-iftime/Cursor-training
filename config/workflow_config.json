@@ -5,5 +5,7 @@
   "required_checks": ["ci", "test"],
   "severity_threshold_for_block": "HIGH",
   "merge_method": "merge",
-  "enable_eof_autofix": true
+  "enable_eof_autofix": true,
+  "update_pr_description": false,
+  "jira_keys": []
 }

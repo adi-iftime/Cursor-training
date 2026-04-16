@@ -11,60 +11,72 @@
     },
     {
       "step": 2,
+      "agent": "jira_story_generator",
+      "action": "create_structured_story",
+      "description": "Generate validated Jira Story from orchestrator task; Atlassian MCP only"
+    },
+    {
+      "step": 3,
       "agent": "planner",
       "action": "plan_and_track",
       "description": "Decompose work, create Jira epics/tasks, define dependencies and priorities"
     },
     {
-      "step": 3,
+      "step": 4,
       "agent": "data_governance",
       "action": "define_contracts",
       "description": "Data contracts, schema evolution policy, lineage requirements"
     },
     {
-      "step": 4,
+      "step": 5,
       "agent": "data_engineer",
       "action": "implement_pipelines",
       "description": "Bronze/Silver/Gold pipelines, batch and streaming as specified"
     },
     {
-      "step": 5,
+      "step": 6,
       "agent": "data_quality",
       "action": "validate_data",
       "description": "Rules, anomalies, completeness vs contracts"
     },
     {
-      "step": 6,
+      "step": 7,
       "agent": "tester",
       "action": "validate_code",
       "description": "Unit, integration, and data validation tests"
     },
     {
-      "step": 7,
+      "step": 8,
       "agent": "security",
       "action": "review_sensitive_ops",
       "description": "PII, RBAC, leak prevention, audit trail for sensitive paths"
     },
     {
-      "step": 8,
+      "step": 9,
       "agent": "devops",
       "action": "deploy",
       "description": "CI/CD, IaC, environments, monitoring hooks"
     },
     {
-      "step": 9,
+      "step": 10,
+      "agent": "github_pr_description_writer",
+      "action": "write_pr_description",
+      "description": "Generate structured PR description; update via existing GitHubClient"
+    },
+    {
+      "step": 11,
       "agent": "cost_optimizer",
       "action": "efficiency_review",
       "description": "Scan patterns, clustering, right-sizing suggestions"
     },
     {
-      "step": 10,
+      "step": 12,
       "agent": "documentation",
       "action": "update_artifacts",
       "description": "Architecture docs, runbooks, diagram updates"
     },
     {
-      "step": 11,
+      "step": 13,
       "agent": "data_analyst",
       "action": "insights_optional",
       "description": "Reports and dashboards from Gold only when scope requires",

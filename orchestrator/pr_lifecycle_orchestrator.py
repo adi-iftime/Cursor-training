@@ -19,10 +19,12 @@ from pathlib import Path
 from typing import Any
 
 from agents.auto_merge_agent import agent as auto_merge_agent
+from agents.github_pr_description_writer import run as run_pr_description_writer
 from agents.pr_fixer_agent import agent as pr_fixer_agent
 from agents.pr_review_agent import agent as pr_review_agent
 from agents.pr_rereview_agent import agent as pr_rereview_agent
 from github.client import GitHubClient
+from github.pr_formatter import build_pr_writer_payload_from_context
 from github.pr_service import fetch_pr_context, load_workflow_config
 from state.pr_state_tracker import PRStateTracker
 
@@ -91,6 +93,28 @@ def run_lifecycle(
     rec.last_review_summary = str(review_out.get("summary") or "")
     tracker.save(rec)
 
+    pr_description_out: dict[str, Any] | None = None
+    if workflow.get("update_pr_description", False):
+        jk = workflow.get("jira_keys")
+        jira_list: list[str] | None
+        if isinstance(jk, str) and jk.strip():
+            jira_list = [jk.strip()]
+        elif isinstance(jk, list):
+            jira_list = [str(x).strip() for x in jk if str(x).strip()]
+        else:
+            jira_list = None
+        payload = build_pr_writer_payload_from_context(
+            ctx,
+            client,
+            jira_keys=jira_list,
+            agent_outputs={"pr_review_agent": review_out},
+        )
+        pr_description_out = run_pr_description_writer(payload, client=client)
+        log.info(
+            "pr_description_writer done updated=%s",
+            (pr_description_out or {}).get("updated"),
+        )
+
     original_issues = copy.deepcopy(review_out.get("issues") or [])
     current_issues = copy.deepcopy(review_out.get("issues") or [])
 
@@ -145,6 +169,7 @@ def run_lifecycle(
         "repo": repo,
         "number": pr_number,
         "review": review_out,
+        "pr_description": pr_description_out,
         "last_issues": current_issues,
         "rereview": rereview_out,
         "merge": merge_out,
