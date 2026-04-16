@@ -1,6 +1,7 @@
 {
   "skillId": "github",
-  "version": "1.0.0",
+  "version": "1.1.0",
+  "description": "Git operations; PR bodies must match github/pr_templates.py (universal sections; Related Jira or no-Jira sentinel).",
   "inputs": {
     "type": "object",
     "required": ["operation"],
@@ -9,7 +10,10 @@
       "base_branch": { "type": "string" },
       "head_branch": { "type": "string" },
       "title": { "type": "string" },
-      "body": { "type": "string" },
+      "body": {
+        "type": "string",
+        "description": "PR description; must follow github/pr_templates.py (Related Jira keys/URLs or NO_JIRA_STORY_LINE)"
+      },
       "reviewers": { "type": "array", "items": { "type": "string" } }
     }
   },

@@ -1,0 +1,21 @@
+---
+description: Core orchestration and policy JSON files for this repository
+globs: config/*.json
+alwaysApply: false
+---
+
+# Configuration surface
+
+When changing behavior, prefer these files (commit together when semantics shift):
+
+| File | Role |
+| --- | --- |
+| `config/agents.json` | Agent registry graph |
+| `config/orchestration_dag.json` | Wave schedule |
+| `config/orchestration.json` | Linear flow narrative |
+| `config/skills.json` | Skill → agent ownership |
+| `config/guardrails.json` | Guardrail path mapping |
+| `config/jira_agent_assignees.json` | Jira assignee routing |
+| `config/workflow_config.json` | PR lifecycle orchestrator |
+
+Python automation: `agents/jira_story_generator.py`, `agents/github_pr_description_writer.py`, `orchestrator/pr_lifecycle_orchestrator.py`.

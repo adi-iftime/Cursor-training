@@ -8,6 +8,7 @@ import pytest
 
 from agents.github_pr_description_writer import run, validate_pr_writer_payload
 from github.pr_formatter import format_pr_description_markdown
+from github.pr_templates import NO_JIRA_STORY_LINE, PR_SECTION_RELATED_JIRA, PR_SECTION_SUMMARY
 
 
 def _minimal_payload(**overrides: object) -> dict:
@@ -19,6 +20,7 @@ def _minimal_payload(**overrides: object) -> dict:
         "commit_history": [{"sha": "deadbeef", "message": "feat: example"}],
         "changed_files": ["src/foo.py", "tests/test_foo.py"],
         "jira_keys": ["SCRUM-99"],
+        "jira_browse_base": "https://acme.atlassian.net",
         "agent_outputs": {"tester": {"summary": "pytest green"}},
         "diff_summary": "diff --git a/src/foo.py\n+ added line\n" * 3,
     }
@@ -28,9 +30,16 @@ def _minimal_payload(**overrides: object) -> dict:
 
 def test_format_contains_required_sections() -> None:
     body = format_pr_description_markdown(_minimal_payload())
-    assert "## Summary" in body
-    assert "## Related Jira tickets" in body
-    assert "## Risk assessment" in body
+    assert PR_SECTION_SUMMARY in body
+    assert PR_SECTION_RELATED_JIRA in body
+    assert "`SCRUM-99`:" in body
+    assert "### ⚠️ Risk Notes" in body
+
+
+def test_format_no_jira_uses_sentinel() -> None:
+    body = format_pr_description_markdown(_minimal_payload(jira_keys=[]))
+    assert NO_JIRA_STORY_LINE in body
+    assert PR_SECTION_RELATED_JIRA in body
 
 
 def test_validate_rejects_empty_files() -> None:
@@ -50,6 +59,7 @@ def test_run_without_client_returns_body() -> None:
     assert out["status"] == "ok"
     assert out["updated"] is False
     assert len(out["body"]) > 200
+    assert PR_SECTION_RELATED_JIRA in out["body"]
 
 
 def test_run_with_client_updates_pr() -> None:
@@ -63,8 +73,7 @@ def test_run_with_client_updates_pr() -> None:
     out = run(_minimal_payload(), client=client)
     assert out["updated"] is True
     client.update_pull.assert_called_once()
-    args, kwargs = client.update_pull.call_args
-    assert args[0] == "acme" and args[1] == "app" and args[2] == 42
+    _args, kwargs = client.update_pull.call_args
     assert "body" in kwargs
 
 

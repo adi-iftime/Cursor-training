@@ -1,0 +1,18 @@
+---
+description: Blueprint — orchestrator entry, planned tasks only, PR delivery.
+globs:
+  - "**/*"
+alwaysApply: true
+---
+
+# Multi-agent blueprint enforcement
+
+1. **Orchestrator first:** Interpret new user goals as a Product Owner + Data Architect would; produce or assume a structured work order (goal, scope, data boundaries, NFRs, `correlation_id`) before specialized implementation. See `workflows/orchestration.md` and `docs/MULTI_AGENT_BLUEPRINT.md`.
+
+2. **Planner before coding:** Substantive implementation follows a **Planner task graph** (task ids, dependencies). Do not invent large scope without breaking it into planned tasks.
+
+3. **PR process:** Changes to protected branches go through **PR** (`workflows/pr-process.md`): Writer → Reviewer → Fixer → merge; use `git` and `gh` as the delivery layer when automating.
+
+4. **Standards:** Apply `standards/coding.md`, `standards/architecture.md`, `standards/data.md`, `standards/testing.md`, `standards/security.md`, `standards/cost.md` for cross-cutting decisions.
+
+5. **Parallelism:** Independent tasks may proceed in parallel only when **dependencies** and **file ownership** from the plan allow it (`workflows/execution.md`).

@@ -17,8 +17,11 @@ Decomposes the orchestrator work order into executable steps, dependencies, and 
 
 | Concern | Owner |
 | --- | --- |
-| Issue creation per task, assignment routing | **Planner** (this agent) |
+| Orchestrator-scoped **Story** (feature-level only; structured payload, MCP) | **`jira_story_generator`** when `jira_required: true` (see `agents/AUTOMATION_AGENTS.md`) |
+| **Per-task** issues, epics, dependencies, ongoing backlog updates | **Planner** (this agent) |
 | Execution of implementation | Downstream agents per `config/agents.json` |
+
+When the orchestrator **did not** require Jira (`jira_required: false`), do not assume an upstream Story exists; plan and file Jira per-task issues only when the backlog policy still calls for tickets. When a Story **does** exist, link or reference it in epics/tasks as appropriate.
 
 ## Inputs
 

@@ -12,15 +12,18 @@ Implements ingestion, transformation, and serving layers using Python, SQL, Data
 
 ## Inputs
 
-| Input | Description |
-| --- | --- |
-| Data contracts | From Data Governance |
-| Execution plan | From Planner |
+
+| Input            | Description                           |
+| ---------------- | ------------------------------------- |
+| Data contracts   | From Data Governance                  |
+| Execution plan   | From Planner                          |
 | Platform context | Catalogs, warehouses, runtime configs |
+
 
 ## Outputs
 
-| Output | Description |
-| --- | --- |
-| Code artifacts | Notebooks, jobs, packages, SQL modules |
+
+| Output            | Description                                       |
+| ----------------- | ------------------------------------------------- |
+| Code artifacts    | Notebooks, jobs, packages, SQL modules            |
 | Pipeline metadata | For DevOps deployment and monitoring registration |
