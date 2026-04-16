@@ -13,7 +13,7 @@ This repository is a **reference implementation and template**, not a single dep
 - **Worker agents** — Implement, test, analyze, and review within **scoped ownership** (paths, branches, or tasks per increment).
 - **PR workflow** — Delivery through **Git** and **GitHub** (`gh`): PR authoring, review, fixes, merge — aligned with branch protection and CI.
 
-The blueprint is expressed as markdown in **`.cursor/agents/`**, **`workflows/`**, **`standards/`**, deeper prompts under **`agents/`**, and registry metadata in **`config/agents.json`**. Teams copy or fork this structure into new repositories and tune agents, tools, and policies for their stack.
+The blueprint is expressed as markdown in **`.cursor/agents/`** (Cursor agent stubs), **`workflows/`**, **`standards/`**, deeper prompts under **`agents/`**, and registry metadata in **`config/agents.json`**. Teams copy or fork this structure into new repositories and tune agents, tools, and policies for their stack.
 
 ---
 
