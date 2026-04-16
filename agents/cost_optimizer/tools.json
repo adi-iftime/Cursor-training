@@ -1,0 +1,10 @@
+{
+  "allowedSkills": ["databricks", "snowflake", "monitoring", "infra_as_code"],
+  "allowedTools": [
+    "billing_query",
+    "query_history_export",
+    "cluster_config_diff",
+    "structured_log"
+  ],
+  "notes": "Advisory agent; implementation via Data Engineer and DevOps."
+}

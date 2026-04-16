@@ -1,0 +1,21 @@
+{
+  "skillId": "infra_as_code",
+  "version": "1.0.0",
+  "inputs": {
+    "type": "object",
+    "required": ["tool", "operation"],
+    "properties": {
+      "tool": { "type": "string", "enum": ["terraform", "pulumi", "cloudformation"] },
+      "operation": { "type": "string", "enum": ["plan", "apply", "destroy"] },
+      "stack": { "type": "string" },
+      "var_file": { "type": "string" }
+    }
+  },
+  "outputs": {
+    "type": "object",
+    "properties": {
+      "plan_summary": { "type": "string" },
+      "apply_log_uri": { "type": "string" }
+    }
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "skillId": "data_validation",
+  "version": "1.0.0",
+  "inputs": {
+    "type": "object",
+    "required": ["contract_id", "expectations"],
+    "properties": {
+      "contract_id": { "type": "string" },
+      "expectations": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": ["type", "severity"],
+          "properties": {
+            "type": { "type": "string" },
+            "severity": { "type": "string", "enum": ["block", "warn", "monitor"] },
+            "column": { "type": "string" },
+            "kwargs": { "type": "object", "additionalProperties": true }
+          }
+        }
+      }
+    }
+  },
+  "outputs": {
+    "type": "object",
+    "properties": {
+      "validation_run_id": { "type": "string" },
+      "failed_expectations": { "type": "array", "items": { "type": "string" } }
+    }
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "version": "1.0.0",
+  "description": "Guardrail registry and enforcement mapping",
+  "global": {
+    "path": "guardrails/global",
+    "rulesFile": "rules.md",
+    "checksFile": "checks.md",
+    "mandatory": [
+      "log_all_decisions_and_actions",
+      "deterministic_when_possible",
+      "no_destructive_without_confirmation",
+      "maintain_traceability"
+    ]
+  },
+  "byAgent": {
+    "data_engineer": "guardrails/data_engineer",
+    "data_analyst": "guardrails/data_analyst",
+    "security": "guardrails/security",
+    "cost_optimizer": "guardrails/cost",
+    "data_quality": "guardrails/data_quality"
+  },
+  "enforcement": {
+    "mode": "pre_and_post",
+    "onViolation": "block_and_escalate",
+    "auditChannel": "structured_logs_plus_ticket"
+  },
+  "crossCutting": [
+    "correlation_id_on_every_handoff",
+    "version_pins_for_external_tools",
+    "secrets_never_in_plaintext_artifacts"
+  ]
+}

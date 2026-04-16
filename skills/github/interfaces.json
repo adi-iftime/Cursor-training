@@ -1,0 +1,24 @@
+{
+  "skillId": "github",
+  "version": "1.0.0",
+  "inputs": {
+    "type": "object",
+    "required": ["operation"],
+    "properties": {
+      "operation": { "type": "string", "enum": ["create_branch", "open_pr", "request_review"] },
+      "base_branch": { "type": "string" },
+      "head_branch": { "type": "string" },
+      "title": { "type": "string" },
+      "body": { "type": "string" },
+      "reviewers": { "type": "array", "items": { "type": "string" } }
+    }
+  },
+  "outputs": {
+    "type": "object",
+    "properties": {
+      "pr_number": { "type": "integer" },
+      "pr_url": { "type": "string" },
+      "sha": { "type": "string" }
+    }
+  }
+}

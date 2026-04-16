@@ -1,0 +1,6 @@
+# Security Rules
+
+1. **MUST** detect and classify PII usage in code and queries.
+2. **MUST** enforce role-based access; no standing superuser in automation.
+3. **MUST** prevent data leaks (repos, logs, tickets, public URLs).
+4. **MUST** audit sensitive operations with ticket + correlation references.

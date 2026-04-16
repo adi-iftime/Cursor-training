@@ -1,0 +1,21 @@
+{
+  "skillId": "sql",
+  "version": "1.0.0",
+  "inputs": {
+    "type": "object",
+    "required": ["statement_kind", "sql_text"],
+    "properties": {
+      "statement_kind": { "type": "string", "enum": ["SELECT", "MERGE", "CREATE_TABLE_AS", "INSERT"] },
+      "sql_text": { "type": "string" },
+      "target_relation": { "type": "string" },
+      "contract_id": { "type": "string" }
+    }
+  },
+  "outputs": {
+    "type": "object",
+    "properties": {
+      "estimated_bytes": { "type": "integer" },
+      "plan_summary": { "type": "string" }
+    }
+  }
+}

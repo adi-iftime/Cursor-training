@@ -1,0 +1,10 @@
+{
+  "allowedSkills": ["ci_cd", "infra_as_code", "monitoring", "github"],
+  "allowedTools": [
+    "pipeline_define",
+    "deploy_environment",
+    "secret_store_reference",
+    "structured_log"
+  ],
+  "notes": "Coordinates with Cost Optimizer on warehouse/cluster sizing variables in IaC."
+}

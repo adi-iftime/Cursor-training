@@ -1,0 +1,10 @@
+{
+  "allowedSkills": ["jira"],
+  "allowedTools": [
+    "jira_create_epic",
+    "jira_create_task",
+    "jira_link_dependency",
+    "structured_log"
+  ],
+  "notes": "Primary owner of the Jira skill per skills.json mapping."
+}

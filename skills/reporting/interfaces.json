@@ -1,0 +1,20 @@
+{
+  "skillId": "reporting",
+  "version": "1.0.0",
+  "inputs": {
+    "type": "object",
+    "required": ["dataset", "viz_type"],
+    "properties": {
+      "dataset": { "type": "string", "description": "Gold relation or semantic model" },
+      "viz_type": { "type": "string", "enum": ["dashboard", "notebook", "pdf_export"] },
+      "filters": { "type": "object", "additionalProperties": true }
+    }
+  },
+  "outputs": {
+    "type": "object",
+    "properties": {
+      "asset_url": { "type": "string" },
+      "freshness_minutes": { "type": "number" }
+    }
+  }
+}
