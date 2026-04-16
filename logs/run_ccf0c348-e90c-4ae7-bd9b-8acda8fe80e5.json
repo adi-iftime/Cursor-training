@@ -1,0 +1,232 @@
+{
+  "correlation_id": "ccf0c348-e90c-4ae7-bd9b-8acda8fe80e5",
+  "status": "completed",
+  "work_order": {
+    "intent": "ingest CRM data",
+    "risk_tier": "low",
+    "scope": "unspecified",
+    "include_analyst": false
+  },
+  "trace": [
+    {
+      "step": 1,
+      "agent": "orchestrator",
+      "action": "receive_request",
+      "correlation_id": "ccf0c348-e90c-4ae7-bd9b-8acda8fe80e5",
+      "output": {
+        "status": "success",
+        "agent": "orchestrator",
+        "action": "receive_request",
+        "summary": "Stub handler for orchestrator:receive_request; prior=none",
+        "artifacts": [],
+        "guardrails_checked": [
+          "agents/orchestrator/constraints.md"
+        ],
+        "prompt_loaded": true,
+        "detail": {
+          "work_order_emitted": {
+            "intent": "ingest CRM data",
+            "risk_tier": "low",
+            "scope": "unspecified"
+          }
+        }
+      }
+    },
+    {
+      "step": 2,
+      "agent": "planner",
+      "action": "plan_and_track",
+      "correlation_id": "ccf0c348-e90c-4ae7-bd9b-8acda8fe80e5",
+      "output": {
+        "status": "success",
+        "agent": "planner",
+        "action": "plan_and_track",
+        "summary": "Stub handler for planner:plan_and_track; prior=orchestrator:1",
+        "artifacts": [],
+        "guardrails_checked": [
+          "agents/planner/constraints.md"
+        ],
+        "prompt_loaded": true,
+        "detail": {
+          "jira_stub": "PLAN-001"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "agent": "data_governance",
+      "action": "define_contracts",
+      "correlation_id": "ccf0c348-e90c-4ae7-bd9b-8acda8fe80e5",
+      "output": {
+        "status": "success",
+        "agent": "data_governance",
+        "action": "define_contracts",
+        "summary": "Stub handler for data_governance:define_contracts; prior=orchestrator:1; planner:1",
+        "artifacts": [],
+        "guardrails_checked": [
+          "agents/data_governance/constraints.md"
+        ],
+        "prompt_loaded": true,
+        "detail": {
+          "contract_stub": "CTR-001"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "agent": "data_engineer",
+      "action": "implement_pipelines",
+      "correlation_id": "ccf0c348-e90c-4ae7-bd9b-8acda8fe80e5",
+      "output": {
+        "status": "success",
+        "agent": "data_engineer",
+        "action": "implement_pipelines",
+        "summary": "Stub handler for data_engineer:implement_pipelines; prior=orchestrator:1; planner:1; data_governance:1",
+        "artifacts": [],
+        "guardrails_checked": [
+          "agents/data_engineer/constraints.md"
+        ],
+        "prompt_loaded": true,
+        "detail": {
+          "layers": [
+            "bronze",
+            "silver",
+            "gold"
+          ]
+        }
+      }
+    },
+    {
+      "step": 5,
+      "agent": "data_quality",
+      "action": "validate_data",
+      "correlation_id": "ccf0c348-e90c-4ae7-bd9b-8acda8fe80e5",
+      "output": {
+        "status": "success",
+        "agent": "data_quality",
+        "action": "validate_data",
+        "summary": "Stub handler for data_quality:validate_data; prior=orchestrator:1; planner:1; data_governance:1; data_engineer:1",
+        "artifacts": [],
+        "guardrails_checked": [
+          "agents/data_quality/constraints.md"
+        ],
+        "prompt_loaded": true,
+        "detail": {
+          "expectations_stub": 3
+        }
+      }
+    },
+    {
+      "step": 6,
+      "agent": "tester",
+      "action": "validate_code",
+      "correlation_id": "ccf0c348-e90c-4ae7-bd9b-8acda8fe80e5",
+      "output": {
+        "status": "success",
+        "agent": "tester",
+        "action": "validate_code",
+        "summary": "Stub handler for tester:validate_code; prior=orchestrator:1; planner:1; data_governance:1; data_engineer:1; data_quality:1",
+        "artifacts": [],
+        "guardrails_checked": [
+          "agents/tester/constraints.md"
+        ],
+        "prompt_loaded": true,
+        "detail": {
+          "tests_stub": "passed"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "agent": "security",
+      "action": "review_sensitive_ops",
+      "correlation_id": "ccf0c348-e90c-4ae7-bd9b-8acda8fe80e5",
+      "output": {
+        "status": "success",
+        "agent": "security",
+        "action": "review_sensitive_ops",
+        "summary": "Stub handler for security:review_sensitive_ops; prior=orchestrator:1; planner:1; data_governance:1; data_engineer:1; data_quality:1; tester:1",
+        "artifacts": [],
+        "guardrails_checked": [
+          "agents/security/constraints.md"
+        ],
+        "prompt_loaded": true,
+        "detail": {
+          "review": "standard"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "agent": "devops",
+      "action": "deploy",
+      "correlation_id": "ccf0c348-e90c-4ae7-bd9b-8acda8fe80e5",
+      "output": {
+        "status": "success",
+        "agent": "devops",
+        "action": "deploy",
+        "summary": "Stub handler for devops:deploy; prior=orchestrator:1; planner:1; data_governance:1; data_engineer:1; data_quality:1; tester:1; security:1",
+        "artifacts": [],
+        "guardrails_checked": [
+          "agents/devops/constraints.md"
+        ],
+        "prompt_loaded": true,
+        "detail": {
+          "deploy_target": "staging"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "agent": "cost_optimizer",
+      "action": "efficiency_review",
+      "correlation_id": "ccf0c348-e90c-4ae7-bd9b-8acda8fe80e5",
+      "output": {
+        "status": "success",
+        "agent": "cost_optimizer",
+        "action": "efficiency_review",
+        "summary": "Stub handler for cost_optimizer:efficiency_review; prior=orchestrator:1; planner:1; data_governance:1; data_engineer:1; data_quality:1; tester:1; security:1; devops:1",
+        "artifacts": [],
+        "guardrails_checked": [
+          "agents/cost_optimizer/constraints.md"
+        ],
+        "prompt_loaded": true,
+        "detail": {
+          "savings_pct_estimate": 5
+        }
+      }
+    },
+    {
+      "step": 10,
+      "agent": "documentation",
+      "action": "update_artifacts",
+      "correlation_id": "ccf0c348-e90c-4ae7-bd9b-8acda8fe80e5",
+      "output": {
+        "status": "success",
+        "agent": "documentation",
+        "action": "update_artifacts",
+        "summary": "Stub handler for documentation:update_artifacts; prior=orchestrator:1; planner:1; data_governance:1; data_engineer:1; data_quality:1; tester:1; security:1; devops:1; cost_optimizer:1",
+        "artifacts": [],
+        "guardrails_checked": [
+          "agents/documentation/constraints.md"
+        ],
+        "prompt_loaded": true,
+        "detail": {
+          "docs_stub": "updated"
+        }
+      }
+    },
+    {
+      "step": 11,
+      "agent": "data_analyst",
+      "skipped": true,
+      "reason": "conditional_not_enabled"
+    }
+  ],
+  "halt_conditions_evaluated": [
+    "guardrail_violation",
+    "security_block",
+    "data_contract_failure",
+    "explicit_user_abort"
+  ]
+}

@@ -1,0 +1,92 @@
+[
+  {
+    "from": "product_manager",
+    "to": "tech_lead",
+    "type": "task",
+    "content": "Sprint planning: epic SCRUM-3; stories SCRUM-4. Prioritize backlog and align acceptance criteria.",
+    "jira_key": "SCRUM-3",
+    "context": {
+      "story_keys": [
+        "SCRUM-4"
+      ]
+    },
+    "timestamp": "2026-04-16T14:59:13+00:00"
+  },
+  {
+    "from": "tech_lead",
+    "to": "backend_engineer",
+    "type": "task",
+    "content": "Implement story SCRUM-4. Touch only agreed paths; follow architecture in org_state.",
+    "jira_key": "SCRUM-4",
+    "context": {
+      "file_paths": [
+        "org/",
+        "logs/communication.json",
+        "state/org_state.json"
+      ],
+      "engineer": "backend_engineer"
+    },
+    "timestamp": "2026-04-16T14:59:13+00:00"
+  },
+  {
+    "from": "data_engineer",
+    "to": "tech_lead",
+    "type": "task",
+    "content": "Data contracts noted; no warehouse changes for this story.",
+    "jira_key": "SCRUM-4",
+    "context": {},
+    "timestamp": "2026-04-16T14:59:13+00:00"
+  },
+  {
+    "from": "backend_engineer",
+    "to": "reviewer",
+    "type": "task",
+    "content": "Implementation ready on branch sim/SCRUM-4-delivery; paths: sim_workspace/SCRUM-4/delivery.md. Requesting review.",
+    "jira_key": "SCRUM-4",
+    "context": {
+      "branch": "sim/SCRUM-4-delivery",
+      "paths": [
+        "sim_workspace/SCRUM-4/delivery.md"
+      ]
+    },
+    "timestamp": "2026-04-16T14:59:13+00:00"
+  },
+  {
+    "from": "reviewer",
+    "to": "tech_lead",
+    "type": "approval",
+    "content": "Code review passed: delivery paths present and consistent with story scope.",
+    "jira_key": "SCRUM-4",
+    "context": {
+      "reviewed_paths": [
+        "org/__init__.py",
+        "logs/communication.json",
+        "state/org_state.json",
+        "sim_workspace/SCRUM-4/delivery.md"
+      ]
+    },
+    "timestamp": "2026-04-16T14:59:13+00:00"
+  },
+  {
+    "from": "devops_engineer",
+    "to": "tech_lead",
+    "type": "approval",
+    "content": "Stability gate: OK — Pipeline stub: no deploy in dry-run.",
+    "jira_key": "SCRUM-4",
+    "context": {
+      "ok": true
+    },
+    "timestamp": "2026-04-16T14:59:13+00:00"
+  },
+  {
+    "from": "tester",
+    "to": "tech_lead",
+    "type": "approval",
+    "content": "Regression: PASS — pytest org tests (if run) expected green for approved path.",
+    "jira_key": "SCRUM-4",
+    "context": {
+      "passed": true
+    },
+    "timestamp": "2026-04-16T14:59:13+00:00"
+  }
+]

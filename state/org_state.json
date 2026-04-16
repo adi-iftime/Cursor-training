@@ -1,0 +1,44 @@
+{
+  "version": 1,
+  "sprint": {
+    "id": "sprint-1",
+    "name": "[Sim] AI Engineering Organization — Sprint 1",
+    "status": "active",
+    "jira_epic_key": "SCRUM-3"
+  },
+  "jira_tickets": {
+    "SCRUM-3": {
+      "type": "Epic",
+      "summary": "[Sim] AI Engineering Organization — Sprint 1",
+      "status": "To Do"
+    },
+    "SCRUM-4": {
+      "type": "Story",
+      "summary": "[Sim] Implement org simulator package + comms log",
+      "status": "Ready to merge",
+      "parent": "SCRUM-3",
+      "assignee_role": "backend_engineer",
+      "file_paths": [
+        "org/",
+        "logs/communication.json",
+        "state/org_state.json"
+      ]
+    }
+  },
+  "agent_assignments": {
+    "SCRUM-4": "backend_engineer"
+  },
+  "prs": {
+    "SCRUM-4": {
+      "branch": "sim/SCRUM-4-delivery",
+      "status": "approved",
+      "reviewer": "reviewer"
+    }
+  },
+  "blocking_issues": [],
+  "communication_log_path": "logs/communication.json",
+  "sprint_progress": {
+    "total_stories": 1,
+    "done": 0
+  }
+}
