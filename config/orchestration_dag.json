@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "version": "1.0.0",
+  "description": "DAG execution schedule for Cursor Orchestrator. Agent ids MUST match config/agents.json exactly. No new agents; do not rename. Parallel waves list agents that may run concurrently when all their dependsOn (from agents.json) are satisfied.",
+  "agents_registry": "config/agents.json",
+  "rules": {
+    "parallelism": "Within a wave marked parallel=true, run only agents whose dependencies are all complete; agents in the same wave must not depend on each other.",
+    "jira": "Use Atlassian MCP for Planner-issued issues; per-agent execution should be traceable (issue keys, comments, assignees from config/jira_agent_assignees.json).",
+    "git": "Meaningful work: feature branch, commit, push, PR, review, merge — as applicable to the repo workflow."
+  },
+  "waves": [
+    {
+      "id": "wave_intake",
+      "parallel": false,
+      "agents": ["orchestrator"],
+      "notes": "STEP 1 — receive user request, emit work order with correlation_id"
+    },
+    {
+      "id": "wave_planner",
+      "parallel": false,
+      "agents": ["planner"],
+      "notes": "STEP 2 — architecture, module breakdown, Jira story structure (MCP); depends on orchestrator"
+    },
+    {
+      "id": "wave_governance",
+      "parallel": false,
+      "agents": ["data_governance"],
+      "notes": "Wave 1 of DAG expansion — controls contracts/policy before engineering"
+    },
+    {
+      "id": "wave_implement_de",
+      "parallel": false,
+      "agents": ["data_engineer"],
+      "notes": "Requires planner + data_governance; unlocks quality, security, tests"
+    },
+    {
+      "id": "wave_parallel_quality_surface",
+      "parallel": true,
+      "agents": ["security", "data_quality", "tester"],
+      "notes": "All depend on data_engineer; security and data_quality also require data_governance. Run in parallel once deps satisfied."
+    },
+    {
+      "id": "wave_devops",
+      "parallel": false,
+      "agents": ["devops"],
+      "notes": "Requires tester + security + data_engineer per agents.json"
+    },
+    {
+      "id": "wave_parallel_optimize_insight",
+      "parallel": true,
+      "agents": ["cost_optimizer", "data_analyst"],
+      "notes": "cost_optimizer needs data_engineer+devops; data_analyst needs data_quality+planner. Parallel when both are eligible."
+    },
+    {
+      "id": "wave_documentation",
+      "parallel": false,
+      "agents": ["documentation"],
+      "notes": "Final sink — run after all in-scope upstream agents for this work order have completed (including devops, cost_optimizer, data_analyst when applicable). Consolidate docs/runbooks."
+    }
+  ],
+  "edges_summary": {
+    "data_governance": ["data_engineer", "data_quality", "security"],
+    "data_engineer": ["data_quality", "tester", "security", "cost_optimizer", "devops"],
+    "data_quality": ["tester", "data_analyst", "documentation"],
+    "tester": ["devops", "documentation"],
+    "security": ["devops", "documentation", "cost_optimizer"],
+    "devops": ["cost_optimizer", "documentation"],
+    "cost_optimizer": ["documentation", "data_engineer"],
+    "data_analyst": ["documentation"],
+    "documentation": []
+  }
+}
