@@ -17,3 +17,9 @@
 - **Orchestrator** must **delegate** Jira keywords (`jira`, `ticket`, `story`, `epic` in backlog context) per `.cursor/agents/orchestrator.md` — **no bypass**.
 
 **Global:** External systems (Jira, GitHub, etc.) MUST be driven via **tools** (MCP, official APIs, CLI), not simulated ticket/PR text — see `.cursor/rules/mcp-external-systems.mdc`.
+
+---
+
+## Cursor Task subagents (named agents)
+
+When the user names agents from **`.cursor/agents/`** or **`agents/`**, the orchestrator MUST run **separate `Task` tool** subagents (parallel when independent). Policy: **`.cursor/rules/orchestrator-task-subagents.mdc`**.

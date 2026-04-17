@@ -1,0 +1,54 @@
+---
+description: When user references agents under .cursor/agents or agents/, spawn separate Task subagent runs (parallel if independent).
+globs:
+  - "**/*"
+alwaysApply: true
+---
+
+# Orchestrator — Task-based subagent invocation (mandatory)
+
+## Trigger
+
+Whenever the user **references or requests** agents defined under:
+
+- `.cursor/agents/` (e.g. `tester`, `orchestrator.md`, `@planner`, “use the data-engineer agent”), or  
+- `agents/` (e.g. `data_engineer`, `agents/security/agent.md`, registry ids from `config/agents.json`),
+
+this MUST be interpreted as an explicit instruction to **spawn separate subagent runs using the Cursor `Task` tool** — **not** to impersonate all roles in one chat turn.
+
+## Mandatory behavior
+
+1. **One Task per requested agent** (or per distinct role the user asked to involve).
+2. **Each Task** must:
+   - Load and follow the **corresponding** definition: read `.cursor/agents/<stub>.md` and/or `agents/<role>/agent.md` (and `constraints.md` when present) at the start of the subagent prompt.
+   - Run in **isolated** subagent context (separate `Task` invocation).
+   - Receive a **clear objective**, **scoped responsibility**, and **explicit output instructions** (paths, artifacts, success criteria).
+3. **Parallelism:** If multiple agents are requested and there is **no explicit dependency** between their work, you MUST issue **concurrent** `Task` calls in the **same assistant turn** (do not serialize without cause).
+4. **Sequential** `Task` chains **only** when there is a **clear dependency** (e.g. output of agent A is required input for agent B).
+
+## Prohibited
+
+- Folding multiple agent roles into **one** assistant reply without `Task` delegation when the user named multiple agents / roles from the paths above.
+- **Overlapping** responsibilities or **writing to the same files** from different subagents **unless** the user explicitly required shared outputs (default: one writer per file per wave).
+
+## Task prompt template (orchestrator → subagent)
+
+Each `Task` prompt should include:
+
+1. **Agent identity:** which stub (`/.cursor/agents/...`) and/or package (`/agents/<id>/`) to obey.  
+2. **Read-first step:** open those files before acting.  
+3. **User goal** fragment relevant to that agent only.  
+4. **Outputs:** exact files, branches, or commands; **read-only** flag on `Task` when the subagent must not modify the repo.  
+5. **Boundaries:** what **not** to touch (other agents’ files).
+
+## Priority interaction
+
+- **Jira backlog keywords** (see `.cursor/rules/jira-atlassian-mcp-stories.mdc` and `.cursor/agents/orchestrator.md`): Jira execution still requires **Atlassian MCP** inside the Jira-focused `Task` (or dedicated Jira subagent).  
+- This **Task** rule **overrides** “do everything inline” defaults whenever named agents from `.cursor/agents` or `agents/` are invoked.
+
+## Subagent type
+
+- Prefer **`generalPurpose`** when the agent must read repo, edit files, and follow long role docs.  
+- Use **`shell`** only for narrow, command-only objectives that match the role (e.g. run tests as `tester`).
+
+Orchestrator (parent chat): **decompose**, **assign**, **launch Tasks**, then **merge** results for the user.

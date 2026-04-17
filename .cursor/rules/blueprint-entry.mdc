@@ -18,3 +18,5 @@ alwaysApply: true
 5. **Parallelism:** Independent tasks may proceed in parallel only when **dependencies** and **file ownership** from the plan allow it (`workflows/execution.md`).
 
 6. **Jira backlog requests:** Keywords **jira** / **ticket** / **story** / **epic** (backlog intent) → delegate per **`.cursor/agents/orchestrator.md`**; issues are created via **Atlassian MCP** only (`.cursor/rules/jira-atlassian-mcp-stories.mdc`).
+
+7. **Named agents (`.cursor/agents/`, `agents/`):** When the user invokes those agents, use **separate `Task` subagent runs**, parallel when independent — **`.cursor/rules/orchestrator-task-subagents.mdc`**.
