@@ -11,7 +11,7 @@ alwaysApply: true
 
 Whenever the user **references or requests** agents defined under:
 
-- `.cursor/agents/` (e.g. `tester`, `orchestrator.md`, `@planner`, “use the data-engineer agent”), or  
+- `.cursor/agents/` (e.g. `tester`, `orchestrator.md`, `@planner`, “use the **data-platform** stub section B for data engineer”), or  
 - `agents/` (e.g. `data_engineer`, `agents/security/agent.md`, registry ids from `config/agents.json`),
 
 this MUST be interpreted as an explicit instruction to **spawn separate subagent runs using the Cursor `Task` tool** — **not** to impersonate all roles in one chat turn.

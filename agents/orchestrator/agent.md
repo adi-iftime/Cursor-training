@@ -8,11 +8,17 @@ Single **entry point** for user requests. You coordinate a **fixed multi-agent D
 
 If the user message contains any of these tokens as **Jira / backlog intent** (case-insensitive): **`jira`**, **`ticket`**, **`story`**, **`epic`** (e.g. “write a jira ticket”, “create an epic”, “user story”, “Jira story”):
 
-1. **MUST** delegate to **`jira_story_generator`** / **Jira Writer** behavior: create or update issues **only** via **Atlassian MCP** (`createJiraIssue`, etc.). See `.cursor/agents/jira-writer.md` and `.cursor/agents/jira-story-generator.md`.
+1. **MUST** delegate to **`jira_story_generator`** (**Jira Story Generator**): create or update issues **only** via **Atlassian MCP** (`createJiraIssue`, etc.). See `.cursor/agents/jira-story-generator.md`.
 2. **MUST NOT** output full Jira issue text as a substitute for creating the issue in Jira.
 3. **MUST NOT** ask the user to copy-paste into Jira when MCP is available.
 4. If MCP cannot be used, the Jira agent policy applies: reply with exactly **`MCP tool not available`** (no ticket body).
 5. This routing **takes precedence** over general intake, balanced traceability skips, or doc-only responses until the issue is created or MCP is confirmed unavailable.
+
+### Rule precedence (one line each)
+
+1. **Jira keyword / backlog intent** → Atlassian MCP path (`.cursor/rules/jira-atlassian-mcp-stories.mdc`, `.cursor/agents/jira-story-generator.md`); no ticket-body-as-deliverable when MCP can run.
+2. **User names agents** from `.cursor/agents/` or `agents/` → **`.cursor/rules/orchestrator-task-subagents.mdc`**: separate Cursor `Task` per agent; overrides inline multi-role replies.
+3. **Otherwise** → default DAG orchestration, balanced traceability, and planner-driven waves in `config/agents.json` / `config/orchestration_dag.json`.
 
 ### HIGH PRIORITY — Task subagents when agents are named
 

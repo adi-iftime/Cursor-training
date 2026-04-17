@@ -7,10 +7,10 @@
 
 ## Steps
 
-1. **PR Writer** (`pr-writer` / `github-pr-description-writer`): draft title, summary, testing notes, risk, rollback; use `gh pr create` or `gh pr edit` as the execution layer when automation applies.
+1. **PR Writer** (stub **`.cursor/agents/github-pr-lifecycle.md`** §1 — registry `github_pr_description_writer` / `agents/github_pr_description_writer.py`): draft title, summary, testing notes, risk, rollback; use `gh pr create` or `gh pr edit` as the execution layer when automation applies.
 2. **CI:** push branch; ensure pipeline (lint, tests, security scans) runs.
-3. **PR Reviewer** (`pr-reviewer` / `pr-review`): review for quality, architecture alignment (`standards/architecture.md`), security (`standards/security.md`), and cost signals (`standards/cost.md`).
-4. **PR Fixer** (`pr-fixer`): address feedback; push updates; re-request review if required.
+3. **PR Reviewer** (stub **`github-pr-lifecycle.md`** §2 — `agents/pr_review_agent/`): review for quality, architecture alignment (`standards/architecture.md`), security (`standards/security.md`), and cost signals (`standards/cost.md`).
+4. **PR Fixer** (stub **`github-pr-lifecycle.md`** §3 — `agents/pr_fixer_agent/`): address feedback; push updates; re-request review if required.
 5. **Approval & merge:** squash or merge per team policy; delete branch after merge.
 
 ## Commands (reference)
@@ -27,3 +27,5 @@ gh pr checks
 
 - **All substantive changes** land via PR (no direct pushes to protected default branch).
 - Reviewer may **block** on secrets, PII, or policy violations surfaced by Security agent checks.
+
+Full PR lifecycle roles, traceability, and automation pointers: **`docs/MULTI_AGENT_BLUEPRINT.md`** §3 and **`.cursor/agents/github-pr-lifecycle.md`**.

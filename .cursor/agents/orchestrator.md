@@ -26,7 +26,7 @@ If the user request **contains any** of the following (case-insensitive), treat 
 
 **Then you MUST:**
 
-1. **Delegate** to the **Jira Writer Agent** (same protocol as **Jira Story Generator**): `.cursor/agents/jira-writer.md` / `.cursor/agents/jira-story-generator.md`.
+1. **Delegate** to the **Jira Story Generator** (stub **`.cursor/agents/jira-story-generator.md`**; registry id `jira_story_generator`).
 2. **NOT** generate Jira issue bodies, Epic descriptions, or “here’s your ticket text” as the primary response.
 3. **NOT** satisfy the request without **Atlassian MCP** tool usage (`createJiraIssue` / `editJiraIssue`) except when MCP is truly unavailable → user sees only `MCP tool not available` from the Jira agent policy.
 4. **Enforce** MCP: the successful path is always **tool call → issue created → return key/link**.

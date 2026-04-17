@@ -24,7 +24,7 @@ flowchart LR
 | **Validation** | Tests, CI, security checks; Cost/Security agents as gates. |
 | **PR pipeline** | PR Writer → Reviewer → Fixer → merge via `git` / `gh`. |
 
-Canonical agent stubs: `.cursor/agents/*.md`. Deep prompts and tools: `agents/<role>/`. Registry: `config/agents.json`.
+Canonical Cursor stubs include **consolidated** entries (`github-pr-lifecycle.md`, `jira-story-generator.md`, `cost-optimizer.md`, `data-platform.md`) plus per-role stubs (e.g. `orchestrator.md`, `tester.md`). Deep prompts and tools: `agents/<role>/`. Registry: `config/agents.json`.
 
 ## 2. Repository layout (blueprint)
 
@@ -61,13 +61,13 @@ For each agent, **inputs** are what it must receive; **outputs** are what it mus
 - **Standards:** `standards/architecture.md`, `workflows/planning.md`.
 - **Tools:** Atlassian MCP (when enabled), file read, config read.
 
-### Jira Story Writer (`jira-writer` / `jira-story-generator`)
+### Jira Story Generator (`jira_story_generator` / Cursor: `jira-story-generator`)
 
-- **Responsibilities:** Author or refine Jira stories/epics from orchestrator/planner artifacts.
-- **Inputs:** Work order, task list, acceptance criteria seeds.
-- **Outputs:** Jira issues with traceability fields linking to PRs/commits when applicable.
-- **Constraints:** No implementation code; follow project Jira conventions.
-- **Standards:** `standards/coding.md` (branch/commit naming for linkage).
+- **Cursor stub:** `.cursor/agents/jira-story-generator.md` (single file; DAG id uses underscore in `config/agents.json`).
+- **Responsibilities:** Create/update Jira issues via **Atlassian MCP** only; no ticket-text-as-deliverable when MCP can run.
+- **Inputs:** Work order, task list, acceptance criteria seeds, `jira_required` / policy.
+- **Outputs:** Issue keys + URLs; optional `agents/jira_story_generator.py` for batch.
+- **Constraints:** `.cursor/rules/jira-atlassian-mcp-stories.mdc`.
 - **Tools:** Atlassian MCP.
 
 ### Backend Developer (`backend`)
@@ -88,14 +88,11 @@ For each agent, **inputs** are what it must receive; **outputs** are what it mus
 - **Standards:** `standards/coding.md`, `standards/testing.md`.
 - **Tools:** Package manager, browser MCP if used for verification.
 
-### Data Engineer (`data-engineer`)
+### Data platform (`data_governance`, `data_engineer`, `data_quality`)
 
-- **Responsibilities:** Pipelines, models, jobs, catalog integration.
-- **Inputs:** Planner tasks, data governance outputs.
-- **Outputs:** Idempotent pipelines, tests, documentation hooks.
-- **Constraints:** Governed sources/sinks; PII handling.
-- **Standards:** `standards/data.md`, `standards/security.md`.
-- **Tools:** dbt/SQL/Spark/etc. per project; read `agents/data_engineer/`.
+- **Cursor stub:** `.cursor/agents/data-platform.md` — three sections map to **`agents/data_governance/`**, **`agents/data_engineer/`**, **`agents/data_quality/`** (registry keeps **three** ids; do not merge the DAG).
+- **Responsibilities:** Governance (contracts, lineage, policy) → engineering (pipelines, jobs, catalog) → quality (validation vs contracts)—see each package `agent.md` for inputs/outputs/tools.
+- **Standards:** `standards/data.md`, `standards/security.md` where applicable.
 
 ### Tester (`tester`)
 
@@ -133,41 +130,15 @@ For each agent, **inputs** are what it must receive; **outputs** are what it mus
 - **Standards:** `standards/data.md`, `standards/testing.md`.
 - **Tools:** Python/R stack per project.
 
-### Cost Analyst (`cost-analyst` / `cost-optimizer`)
+### Cost / FinOps (`cost_optimizer`)
 
-- **Responsibilities:** Infra cost estimates, inefficiency flags, FinOps-style recommendations.
-- **Inputs:** Architecture choices, usage assumptions.
-- **Outputs:** Cost notes tied to options; non-functional cost requirements.
-- **Constraints:** Advisory unless policy says otherwise.
-- **Standards:** `standards/cost.md`.
-- **Tools:** Pricing calculators, telemetry if available.
+- **Cursor stub:** `.cursor/agents/cost-optimizer.md` → **`agents/cost_optimizer/`** (registry id `cost_optimizer`). FinOps estimates, inefficiency flags; advisory unless policy elevates to merge blocker. **Related DAG role:** **`devops`** stays separate — `.cursor/agents/devops.md`.
+- **Standards:** `standards/cost.md`, `standards/architecture.md`.
 
-### PR Writer (`pr-writer` / `github-pr-description-writer`)
+### GitHub / PR lifecycle
 
-- **Responsibilities:** PR title/body, testing notes, risk, rollback.
-- **Inputs:** Diff summary, task ids, CI results.
-- **Outputs:** Opened/updated PR via `gh` when automated.
-- **Constraints:** Accurate scope description; no scope creep.
-- **Standards:** `standards/coding.md`.
-- **Tools:** `git`, `gh`.
-
-### PR Reviewer (`pr-reviewer` / `pr-review`)
-
-- **Responsibilities:** Code quality, architecture fit, security, tests.
-- **Inputs:** PR diff, standards, threat model hints.
-- **Outputs:** Review comments, approve/request changes.
-- **Constraints:** Does not implement fixes (escalate to PR Fixer).
-- **Standards:** All of `standards/`.
-- **Tools:** `gh pr diff`, CI, static analysis.
-
-### PR Fixer (`pr-fixer`)
-
-- **Responsibilities:** Address review comments, push fixes, re-run checks.
-- **Inputs:** Review feedback, failing CI.
-- **Outputs:** New commits; conversation updates.
-- **Constraints:** Minimal fix surface; no unrelated edits.
-- **Standards:** `standards/coding.md`.
-- **Tools:** `git`, `gh`, local test runners.
+- **Cursor stub:** `.cursor/agents/github-pr-lifecycle.md` — one entry for PR **description** (`github_pr_description_writer` → `agents/github_pr_description_writer.py`), **review / fix / re-review / auto-merge** (`agents/pr_review_agent/`, `pr_fixer_agent`, `pr_rereview_agent`, `auto_merge_agent`), and **traceability** audits (`github/pr_templates.py`, `.cursor/rules/traceability-jira-github.mdc`). Use the stub section that matches the task.
+- **Tools:** `git`, `gh`, `GitHubClient`, `python -m orchestrator.pr_lifecycle_orchestrator` (see `.cursor/skills/pr-lifecycle-github/SKILL.md`).
 
 ## 4. Parallel execution model
 
@@ -205,4 +176,4 @@ Cursor rules under `.cursor/rules/` reinforce DAG and guardrails; `config/agents
 
 ---
 
-For day-to-day Cursor usage, start from **`workflows/orchestration.md`**, pick the agent in **`.cursor/agents/`**, and obey **`standards/`** for consistency across projects that adopt this blueprint.
+For day-to-day Cursor usage, start from **`workflows/orchestration.md`**, pick the matching stub in **`.cursor/agents/`** (§3), and obey **`standards/`** for consistency across projects that adopt this blueprint.

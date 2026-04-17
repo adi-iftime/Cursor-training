@@ -9,12 +9,12 @@ This directory is what **Cursor Settings → Project** indexes for **Rules**, **
 | **`rules/*.mdc`** | Mix: orchestration + **guardrails** | Cursor **Rules** (alwaysApply / globs). Guardrail domains mirror `guardrails/<domain>/`. |
 | **`skills/*/SKILL.md`** | `skills/<id>/skill.md` + 3 repo-specific skills | Cursor **Skills** (`name` + `description` in YAML). |
 | **`commands/*.md`** | Project-defined | Slash **Commands** (`name` + `description`). |
-| **`agents/*.md`** | `agents/<role>/` + Python agents | Cursor **Subagents** (YAML: `name`, `description`, `model`, `readonly`, `is_background`). |
+| **`agents/*.md`** | `agents/<role>/` + Python agents | Cursor **Subagents** (YAML: `name`, `description`, `model`, `readonly`, `is_background`). Some stubs are **consolidated** (one file, multiple sections → multiple `agents/` packages); see `docs/MULTI_AGENT_BLUEPRINT.md` §1. |
 | **`guardrails/*.md`** | Index only | Human-readable pointers to `guardrails/` (authoritative markdown). |
 
 ## Counts (approximate)
 
-- **Subagents:** one `.md` per DAG agent + automation + PR lifecycle (`agents/*.md`).
+- **Subagents:** mix of **per-role** stubs and **consolidated** lifecycle stubs (`github-pr-lifecycle`, `jira-story-generator`, `cost-optimizer`, `data-platform`, …); see `AGENTS.md` §2 and the blueprint.
 - **Skills:** every `skills/*/skill.md` → `.cursor/skills/<id>/SKILL.md`, plus `multi-agent-orchestration`, `jira-github-traceability`, `pr-lifecycle-github`.
 - **Commands:** testing, DAG validation, orchestration overview, agents registry, guardrails index.
 - **Rules:** existing orchestration/Jira rules + `guardrails-*.mdc` + `repository-config.mdc` + `cursor-guardrails-registry.mdc`.

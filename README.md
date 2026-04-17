@@ -17,34 +17,13 @@ The blueprint is expressed as markdown in **`.cursor/agents/`** (Cursor agent st
 
 ---
 
-## How It Works
+## How it works & architecture
 
-```text
-User prompt
-    → Orchestrator (work order: goal, architecture/data sketch, constraints, NFRs, correlation_id)
-    → Planner (epics/stories/technical tasks, DAG, parallel groups, agent assignments)
-    → Parallel workers (implementation + gates: testing, security, cost, data governance as planned)
-    → PR Writer (title/body, test plan, risk)
-    → PR Reviewer (quality, architecture, security, tests)
-    → PR Fixer (addresses feedback)
-    → Merge (policy-compliant)
-```
+**Flow:** User prompt → **Orchestrator** (work order, NFRs, `correlation_id`) → **Planner** (DAG, parallel groups) → workers / gates → **PR lifecycle** (`workflows/pr-process.md`) → merge.
 
-**Orchestrator-first** means implementation agents consume a **planned task** and **ownership boundary**, not a raw ambiguous prompt. **Planner** is the control plane for sequencing and parallelism. **PR workflow** is the delivery plane for integrating change safely.
+**Orchestrator-first:** workers consume **planned tasks** and ownership boundaries, not raw scope. **Canonical detail** (layers, mermaid, agent I/O): **[`docs/MULTI_AGENT_BLUEPRINT.md`](docs/MULTI_AGENT_BLUEPRINT.md)** §1–3.
 
----
-
-## Architecture
-
-| Layer | Responsibility |
-| --- | --- |
-| **Orchestration** | Single entry interpretation; NFR capture; optional `jira_required`; correlation for tracing. |
-| **Planning** | Task graph, dependencies, parallel execution groups, worker assignment. |
-| **Execution** | Workers implement or analyze per task; conflicts avoided via ownership rules and sync points (see `workflows/execution.md`). |
-| **Validation** | Automated tests, CI, security and cost reviews as defined in the plan. |
-| **Delivery** | PR lifecycle: author → review → fix → merge (`workflows/pr-process.md`). |
-
-Optional **Jira** integration: **Jira Story Writer** keeps backlog items aligned with the orchestrator/planner artifacts when policy or flags require it.
+**Jira:** Backlog via **Atlassian MCP** when required — see **`workflows/orchestration.md`** and **`.cursor/agents/jira-story-generator.md`**.
 
 ---
 
@@ -56,20 +35,19 @@ For each role: **what it does**, **when it is used**.
 | --- | --- | --- | --- |
 | **Orchestrator** | Product Owner + Data Architect | Clarifies goals; defines scope, architecture and data model sketches, constraints, NFRs; emits structured work order. | **Every** substantive new request or major change — **mandatory entry**. |
 | **Planner** | Technical program / delivery lead | Decomposes work; builds DAG; assigns agents; identifies parallel work. | After orchestrator work order; **before** parallel implementation at scale. |
-| **Jira Story Writer** | Backlog author | Creates/updates Jira epics/stories; traceability to branches/PRs. | When Jira is required or team mandates ticket linkage. |
+| **Jira Story Generator** | Backlog (MCP) | Creates/updates Jira issues via Atlassian MCP; traceability to branches/PRs. | When Jira is required or team mandates ticket linkage. |
 | **Backend Developer** | Server-side engineer | APIs, services, jobs, infra-as-code in scope; tests; operational notes. | Tasks touching server/runtime/back-end code paths. |
 | **Frontend Developer** | Client-side engineer | UI implementation, client tests, accessibility baseline. | Tasks touching UI or client bundles. |
-| **Data Engineer** | Pipeline / transformation engineer | Pipelines, jobs, transformations, catalog integration; idempotency and tests. | Data movement, modeling, or orchestration work. |
+| **Data platform** | Governance + engineer + quality | Three DAG roles; contracts/lineage, pipelines/jobs, validation vs contracts (see `.cursor/agents/data-platform.md`). | Data work governed by `config/agents.json` graph. |
+| **DevOps** | Deploy / CI | Pipelines, releases, ops hooks; feeds PR description writer in DAG. | After tests/security paths satisfied per plan. |
 | **Tester** | Quality engineer | Test plans, automation, defect reporting; CI interpretation. | After or alongside implementation; before merge. |
 | **Security Engineer** | AppSec / security reviewer | Secrets, privacy, authz/authn, unsafe patterns; merge-blocking per policy. | Security-sensitive changes or standing policy for every PR. |
 | **Data Analyst** | Analytics | Metrics, dashboards, analytical validation of outputs. | When success criteria are metric- or dashboard-driven. |
 | **Data Scientist** | Modeling / experimentation | Experiments, offline evaluation, reproducibility, model documentation. | ML/analytics experiments in scope. |
-| **Cost Analyst** | FinOps | Cost estimates, inefficient pattern flags vs orchestrator NFRs. | Infra-heavy or spend-sensitive designs. |
-| **PR Writer** | Delivery writer | PR title/body, test plan, risk, rollback; `gh` when automated. | When opening/updating a PR. |
-| **PR Reviewer** | Code/architecture reviewer | Review diff vs standards; approve or request changes. | Every PR before merge. |
-| **PR Fixer** | Review remediator | Implements review feedback and failing checks with minimal scope. | After review or CI failure. |
+| **Cost / FinOps** | Cost optimizer | Cost estimates, inefficiency flags vs orchestrator NFRs (`cost_optimizer` DAG). | Infra-heavy or spend-sensitive designs. |
+| **GitHub / PR lifecycle** | PR bodies + review loop | Description writer, review, fix, re-review, auto-merge, traceability (see `.cursor/agents/github-pr-lifecycle.md`). | PRs, CI gates, merge readiness. |
 
-*Automation registry IDs may differ (e.g. `github_pr_description_writer`, `cost_optimizer`); Cursor-facing aliases live under `.cursor/agents/` (e.g. `pr-writer.md`, `cost-analyst.md`).*
+*Registry ids use underscores in `config/agents.json` (e.g. `github_pr_description_writer`, `cost_optimizer`). Consolidated Cursor stubs: `github-pr-lifecycle.md`, `jira-story-generator.md`, `cost-optimizer.md`, `data-platform.md` (see [`docs/MULTI_AGENT_BLUEPRINT.md`](docs/MULTI_AGENT_BLUEPRINT.md) §3).*
 
 ---
 
@@ -147,7 +125,7 @@ For each role: **what it does**, **when it is used**.
 
 ## Contributing
 
-1. **Add or change an agent** — Create/update under `agents/<role>/` (prompts, tools, constraints), add a stub under `.cursor/agents/`, and register in `config/agents.json` if the DAG should include it.
+1. **Add or change an agent** — Create/update under `agents/<role>/`; add or extend a **stub** under `.cursor/agents/` (use consolidated stubs where applicable — §3 in [`docs/MULTI_AGENT_BLUEPRINT.md`](docs/MULTI_AGENT_BLUEPRINT.md)); register in `config/agents.json` if the DAG should include it.
 2. **Add a workflow phase** — Extend `workflows/` and link from `docs/MULTI_AGENT_BLUEPRINT.md`.
 3. **Tighten governance** — Add or adjust `.cursor/rules/*.mdc` and reference them from `standards/`.
 4. **Keep tests green** — Run `pytest` before merging changes that touch Python modules or automation.

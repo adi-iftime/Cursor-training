@@ -10,7 +10,7 @@ Authoritative prompts, constraints, and tools for the data platform:
 
 ## 2. Cursor subagents (`.cursor/agents/`)
 
-One file per role for the **Cursor Subagents** UI. Each file has YAML frontmatter and points to the canonical `agents/...` path. Filenames use kebab-case (e.g. `data-engineer.md`, `jira-story-generator.md`).
+**Cursor Subagents** UI: one YAML-backed stub per **lifecycle or domain** where it helps (e.g. **`github-pr-lifecycle.md`** for PR description + review loop + traceability; **`data-platform.md`** with sections for the three data DAG roles). Other agents stay **one stub per role** (e.g. `orchestrator.md`, `tester.md`). Each stub points to canonical packages under `agents/...` and registry ids in `config/agents.json`. Filenames use kebab-case.
 
 ## 3. Skills
 

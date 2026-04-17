@@ -15,7 +15,7 @@ alwaysApply: true
 
 ## Jira-specific
 
-Stricter policy: `.cursor/rules/jira-atlassian-mcp-stories.mdc` and `.cursor/agents/jira-writer.md`.
+Stricter policy: `.cursor/rules/jira-atlassian-mcp-stories.mdc` and `.cursor/agents/jira-story-generator.md`.
 
 ## Rationale
 

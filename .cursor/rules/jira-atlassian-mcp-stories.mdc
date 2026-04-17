@@ -11,7 +11,7 @@ alwaysApply: true
 
 Whenever the user asks to **create**, **write**, or **update** a **Jira** issue — including **Epic**, **Story**, **Task**, **ticket**, or **backlog item** — or uses keywords **`jira`**, **`ticket`**, **`story`**, **`epic`** for backlog work:
 
-1. **Orchestrator** routes to **Jira Writer / jira-story-generator** per `.cursor/agents/orchestrator.md`. Do not answer with a full ticket draft as the deliverable.
+1. **Orchestrator** routes to **Jira Story Generator** per `.cursor/agents/orchestrator.md` and **`.cursor/agents/jira-story-generator.md`**. Do not answer with a full ticket draft as the deliverable.
 2. **MANDATORY:** Use **Atlassian MCP** (`plugin-atlassian-atlassian`): at minimum `getAccessibleAtlassianResources`, then `createJiraIssue` (or `editJiraIssue` for updates). Build `summary` / `description` **for the API payload**; do not paste the full body as the user-visible substitute for creating the issue.
 3. **SUCCESS response:** Confirm creation and give **issue key** + **link** (minimal text).
 4. **MCP unavailable:** Reply with **exactly** `MCP tool not available` and nothing else (no ticket template).
@@ -28,6 +28,6 @@ Whenever the user asks to **create**, **write**, or **update** a **Jira** issue 
 
 ## Related
 
-- Jira agents: `.cursor/agents/jira-writer.md`, `.cursor/agents/jira-story-generator.md`
+- Jira agent stub: `.cursor/agents/jira-story-generator.md` (DAG id `jira_story_generator`)
 - Workflow: `workflows/orchestration.md` (Jira Execution Policy)
 - Planner Jira: `.cursor/rules/planner-jira-atlassian-mcp.mdc`

@@ -7,7 +7,7 @@ description: Create Jira Epic/Story/Task via Atlassian MCP only; never paste tic
 
 When the user wants a **Jira ticket / story / epic**:
 
-1. Follow **`.cursor/agents/jira-writer.md`** (same as **jira-story-generator**).
+1. Follow **`.cursor/agents/jira-story-generator.md`** (DAG id `jira_story_generator`).
 2. Call **Atlassian MCP** `createJiraIssue` after resolving `cloudId` and project/issue metadata.
 3. Return **issue key + URL** only — not a copy-paste ticket body.
 4. If MCP cannot run → output exactly: `MCP tool not available`
