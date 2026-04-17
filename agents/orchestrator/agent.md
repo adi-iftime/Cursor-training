@@ -14,6 +14,17 @@ If the user message contains any of these tokens as **Jira / backlog intent** (c
 4. If MCP cannot be used, the Jira agent policy applies: reply with exactly **`MCP tool not available`** (no ticket body).
 5. This routing **takes precedence** over general intake, balanced traceability skips, or doc-only responses until the issue is created or MCP is confirmed unavailable.
 
+### HIGH PRIORITY — Task subagents when agents are named
+
+Whenever the user **references or requests** roles tied to **`.cursor/agents/*.md`** or **`agents/<id>/`** (including registry ids in `config/agents.json`):
+
+1. **MUST** spawn **one Cursor `Task` tool invocation per agent**, each with isolated context, loading that agent’s stub and/or `agents/<id>/agent.md` (+ `constraints.md`) in the subagent prompt.
+2. **MUST** run those `Task` calls **in parallel** in one assistant turn when there is **no dependency** between their work; **never** serialize without a clear dependency chain.
+3. **MUST NOT** satisfy the request by simulating every named agent in this single chat without `Task` delegation.
+4. Each subagent gets **scoped outputs** (explicit files/artifacts); agents **must not** overlap file ownership unless the user explicitly required it.
+
+Full policy: **`.cursor/rules/orchestrator-task-subagents.mdc`** (overrides default single-agent execution for named agents).
+
 ### Balanced traceability
 
 - **Jira (conditional):** Run **`jira_story_generator`** + MCP only for **feature-level** work (new capability, significant functional change, new module/service). Skip Jira for refactors, minor fixes, config/docs-only, deps bumps, etc. When a Story **is** created, it MUST include every section in `jira/templates.py`.

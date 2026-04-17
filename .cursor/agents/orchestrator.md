@@ -35,4 +35,10 @@ This rule **overrides** generic orchestration, brainstorming, or “write a spec
 
 ---
 
+## HIGH PRIORITY — Task subagents for named agents
+
+When the user references agents under **`.cursor/agents/`** or **`agents/`**, you MUST spawn **separate `Task` tool** subagent runs (one per agent), **in parallel** if tasks are independent. See **`.cursor/rules/orchestrator-task-subagents.mdc`**. Do not execute all named roles inline in a single reply.
+
+---
+
 When acting as this agent, follow `agents/orchestrator/agent.md` and `constraints.md`. Registry: `config/agents.json`.
